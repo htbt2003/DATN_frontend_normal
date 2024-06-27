@@ -64,9 +64,9 @@ function Product() {
   //tạo price
   useEffect(() => {
     if (!sliderRef.current) return;
-
+  
     const priceSlider = sliderRef.current;
-
+  
     noUiSlider.create(priceSlider, {
       start: [0, 1000000],
       connect: true,
@@ -82,23 +82,27 @@ function Product() {
         prefix: ''
       })
     });
-
+  
     const updatePriceRange = (values) => {
       document.getElementById('filter-price-range').textContent = values.join(' - ');
+    };
+  
+    const setFinalPrices = (values) => {
       setPrices(values.map(value => parseInt(value.replace('$', ''), 10)));
     };
-
+  
     priceSlider.noUiSlider.on('update', updatePriceRange);
-
+    priceSlider.noUiSlider.on('change', setFinalPrices);
+  
     return () => {
       if (priceSlider.noUiSlider) {
         priceSlider.noUiSlider.off('update', updatePriceRange);
+        priceSlider.noUiSlider.off('change', setFinalPrices);
         priceSlider.noUiSlider.destroy();
       }
     };
   }, []);
-console.log(prices)
-  const handleCheckboxCategory = (categoryId) => {
+    const handleCheckboxCategory = (categoryId) => {
     const isSelected = selectedCategories.includes(categoryId);
     if (isSelected) {
       setSelectedCategories(prevSelected => prevSelected.filter(id => id !== categoryId));

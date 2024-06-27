@@ -11,6 +11,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [address, setAddress] = useState("");
     const [gender, setGender] = useState();
+    document.title = "Đăng ký";
     function UserStore(event)
     {
         event.preventDefault();//không load lại trang

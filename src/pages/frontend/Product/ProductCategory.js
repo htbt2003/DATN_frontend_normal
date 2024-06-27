@@ -65,9 +65,9 @@ function ProductCategory() {
   //-------thanh lọc giá--------
   useEffect(() => {
     if (!sliderRef.current) return;
-
+  
     const priceSlider = sliderRef.current;
-
+  
     noUiSlider.create(priceSlider, {
       start: [0, 1000000],
       connect: true,
@@ -83,25 +83,31 @@ function ProductCategory() {
         prefix: ''
       })
     });
-
+  
     const updatePriceRange = (values) => {
       document.getElementById('filter-price-range').textContent = values.join(' - ');
+    };
+  
+    const setFinalPrices = (values) => {
       setPrices(values.map(value => parseInt(value.replace('$', ''), 10)));
     };
-
+  
     priceSlider.noUiSlider.on('update', updatePriceRange);
-
+    priceSlider.noUiSlider.on('change', setFinalPrices);
+  
     return () => {
       if (priceSlider.noUiSlider) {
         priceSlider.noUiSlider.off('update', updatePriceRange);
+        priceSlider.noUiSlider.off('change', setFinalPrices);
         priceSlider.noUiSlider.destroy();
       }
     };
   }, []);
-  const handleChangePrice = () => {
+    const handleChangePrice = () => {
     setPriceFiler(prices);
     setReload(Date.now)
   };
+  console.log(prices)
     return (
 <>
   <main className="main">

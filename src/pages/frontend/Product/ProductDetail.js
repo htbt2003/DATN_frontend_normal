@@ -57,7 +57,7 @@ function ProductDetail() {
     infinite: true,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToScroll: 1,
     focusOnSelect: true,
     afterChange: (index) => setCurrentImage(images[index].image),
   };
@@ -77,8 +77,9 @@ function ProductDetail() {
     if (image.length > 0) {
       setCurrentImage(image)
     }
-    console.log(image)
   };
+  console.log( product.detail)
+
   //lấy ra variant từ các giá trị thuộc tính đã chọn---------------------------------
   const findSelectedVariant = (variants, selectedAttributes) => {
     for (const variant of variants) {
@@ -165,17 +166,17 @@ function ProductDetail() {
                     <div className="row">
                       <figure className="product-main-image">
                         <img
-                          style={{ height: "520px" }}
+                          style={{ height: "625px" }}
                           src={urlImage + "pro_image/" + currentImage} alt="Preview"
                         // src={urlImage + "product/" + product.image}
                         />
-                        <a
+                        {/* <a
                           href="#"
                           id="btn-product-gallery"
                           className="btn-product-gallery"
                         >
                           <i className="icon-arrows" />
-                        </a>
+                        </a> */}
                       </figure>
                       {/* End .product-main-image */}
                       <div
@@ -184,12 +185,12 @@ function ProductDetail() {
                         <button onClick={handlePrev} className="gallery-control-prev btn-outline-primary bg-white">
                           <FaChevronUp />
                         </button>
-                        <div className="gallery-thumbnails-wrapper">
-                          <Slider {...settings} className="gallery-thumbnails" ref={sliderRef}>
+                        <div className="" >
+                          <Slider {...settings} className="" ref={sliderRef}>
                             {images.map((image, index) => (
-                              <div key={index} className="gallery-thumbnail">
+                              <div key={index} className="">
                                 <a
-                                  className="product-gallery-item active"
+                                  className=" active"
                                 >
                                   <img
                                     src={urlImage + "pro_image/" + image.image}
@@ -201,7 +202,7 @@ function ProductDetail() {
                           </Slider>
 
                         </div>
-                        <button onClick={handleNext} className="gallery-control-next  btn-outline-primary bg-white">
+                        <button onClick={handleNext} style={{ background: "#cbcdce" }} className="gallery-control-next  btn-outline-primary bg-white">
                           <FaChevronDown />
                         </button>
                       </div>

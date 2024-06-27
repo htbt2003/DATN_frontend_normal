@@ -40,7 +40,7 @@ function ProductBrand() {
   }
   useEffect(function () {
     fetchAPI()
-  }, [slug, reload, prices])
+  }, [slug, prices])
 
       //------------pagination-------------
   const numberPage = Math.ceil(total / 8);
@@ -51,9 +51,9 @@ function ProductBrand() {
   //-------thanh lọc giá--------
   useEffect(() => {
     if (!sliderRef.current) return;
-
+  
     const priceSlider = sliderRef.current;
-
+  
     noUiSlider.create(priceSlider, {
       start: [0, 1000000],
       connect: true,
@@ -69,22 +69,27 @@ function ProductBrand() {
         prefix: ''
       })
     });
-
+  
     const updatePriceRange = (values) => {
       document.getElementById('filter-price-range').textContent = values.join(' - ');
+    };
+  
+    const setFinalPrices = (values) => {
       setPrices(values.map(value => parseInt(value.replace('$', ''), 10)));
     };
-
+  
     priceSlider.noUiSlider.on('update', updatePriceRange);
-
+    priceSlider.noUiSlider.on('change', setFinalPrices);
+  
     return () => {
       if (priceSlider.noUiSlider) {
         priceSlider.noUiSlider.off('update', updatePriceRange);
+        priceSlider.noUiSlider.off('change', setFinalPrices);
         priceSlider.noUiSlider.destroy();
       }
     };
   }, []);
-  //----------sort--------
+    //----------sort--------
   const handleSortChange = (event) => {
     setSort(event.target.value);
     setReload(Date.now)
