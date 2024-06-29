@@ -92,9 +92,8 @@ function HomeData() {
     {/* End .container-fluid */}
     <div className="mb-5" />
     {/* End .mb-5 */}
-
     {/*Deal of the Day */}
-    <div className="bg-light deal-container pt-5 pb-3 mb-5">
+    {/* <div className="bg-light deal-container pt-5 pb-3 mb-5">
       <div className="container">
         <div className="row">
           <div className="col-lg-9">
@@ -105,20 +104,16 @@ function HomeData() {
                 <h3 className="product-title">
                   <a href="product.html">POÄNG</a>
                 </h3>
-                {/* End .product-title */}
                 <div className="product-price">
                   <span className="new-price">$149.00</span>
                   <span className="old-price">Was $240.00</span>
                 </div>
-                {/* End .product-price */}
                 <div className="deal-countdown" data-until="+10h" />
-                {/* End .deal-countdown */}
                 <a href="product.html" className="btn btn-primary">
                   <span>Shop Now</span>
                   <i className="icon-long-arrow-right" />
                 </a>
               </div>
-              {/* End .deal-content */}
               <div className="deal-image">
                 <a href="product.html">
                   <img
@@ -127,11 +122,8 @@ function HomeData() {
                   />
                 </a>
               </div>
-              {/* End .deal-image */}
             </div>
-            {/* End .deal */}
           </div>
-          {/* End .col-lg-9 */}
           <div className="col-lg-3">
             <div className="banner banner-overlay banner-overlay-light text-center d-none d-lg-block">
               <a href="#">
@@ -142,30 +134,23 @@ function HomeData() {
               </a>
               <div className="banner-content banner-content-top banner-content-center">
                 <h4 className="banner-subtitle">The Best Choice</h4>
-                {/* End .banner-subtitle */}
                 <h3 className="banner-title">AGEN</h3>
-                {/* End .banner-title */}
                 <div className="banner-text text-primary">$49.99</div>
-                {/* End .banner-text */}
                 <a href="#" className="btn btn-outline-gray banner-link">
                   Shop Now
                   <i className="icon-long-arrow-right" />
                 </a>
               </div>
-              {/* End .banner-content */}
             </div>
-            {/* End .banner */}
           </div>
-          {/* End .col-lg-3 */}
         </div>
-        {/* End .row */}
       </div>
-      {/* End .container */}
-    </div>
+    </div> */}
     {/* End .bg-light */}
-    <div className="mb-6" />
+    {/* <div className="mb-6" /> */}
     {/* End .mb-6 */}
     <div className="container">
+    <hr className="mb-6" ></hr>
       <div className="heading heading-center mb-3">
         <h2 className="title">Phổ biến</h2>
         {/* End .title */}
@@ -223,7 +208,7 @@ function HomeData() {
       <div className="container">
       <div className="heading heading-flex p-3">
         <div className="heading-left">
-          <h2 className="title mb-0 font-weight-bold">From Our Blog</h2>
+          <h2 className="title mb-0 font-weight-bold">Bài viết</h2>
       </div>
   {/* End .heading-left */}
   <div className="heading-right">
@@ -241,7 +226,7 @@ function HomeData() {
         {/* End .title-lg text-center */}
         <div className="products">
             <div className="row justify-content-center">
-            <article className="entry entry-display p-2">
+            {/* <article className="entry entry-display p-2">
             <figure className="entry-media">
               <a href="single.html">
                 <img
@@ -250,26 +235,20 @@ function HomeData() {
                 />
               </a>
             </figure>
-            {/* End .entry-media */}
             <div className="entry-body text-center">
               <div className="entry-meta">
                 <a href="#">Nov 22, 2018</a>, 0 Comments
               </div>
-              {/* End .entry-meta */}
               <h3 className="entry-title">
                 <a href="single.html">Sed adipiscing ornare.</a>
               </h3>
-              {/* End .entry-title */}
               <div className="entry-content">
                 <a href="single.html" className="read-more">
                   Continue Reading
                 </a>
               </div>
-              {/* End .entry-content */}
             </div>
-            {/* End .entry-body */}
           </article>
-          {/* End .entry */}
           <article className="entry entry-display p-2">
             <figure className="entry-media">
               <a href="single.html">
@@ -279,53 +258,19 @@ function HomeData() {
                 />
               </a>
             </figure>
-            {/* End .entry-media */}
             <div className="entry-body text-center">
               <div className="entry-meta">
                 <a href="#">Dec 12, 2018</a>, 0 Comments
               </div>
-              {/* End .entry-meta */}
               <h3 className="entry-title">
                 <a href="single.html">Fusce lacinia arcuet nulla.</a>
               </h3>
-              {/* End .entry-title */}
               <div className="entry-content">
                 <a href="single.html" className="read-more">
                   Continue Reading
                 </a>
               </div>
-              {/* End .entry-content */}
             </div>
-            {/* End .entry-body */}
-          </article>
-          {/* End .entry */}
-          <article className="entry entry-display p-2">
-            <figure className="entry-media">
-              <a href="single.html">
-                <img
-                  src="assets/images/demos/demo-2/blog/post-3.jpg"
-                  alt="image desc"
-                />
-              </a>
-            </figure>
-            {/* End .entry-media */}
-            <div className="entry-body text-center">
-              <div className="entry-meta">
-                <a href="#">Dec 19, 2018</a>, 2 Comments
-              </div>
-              {/* End .entry-meta */}
-              <h3 className="entry-title">
-                <a href="single.html">Quisque volutpat mattis eros.</a>
-              </h3>
-              {/* End .entry-title */}
-              <div className="entry-content">
-                <a href="single.html" className="read-more">
-                  Continue Reading
-                </a>
-              </div>
-              {/* End .entry-content */}
-            </div>
-            {/* End .entry-body */}
           </article>
           <article className="entry entry-display p-2">
             <figure className="entry-media">
@@ -336,53 +281,20 @@ function HomeData() {
                 />
               </a>
             </figure>
-            {/* End .entry-media */}
             <div className="entry-body text-center">
               <div className="entry-meta">
                 <a href="#">Dec 19, 2018</a>, 2 Comments
               </div>
-              {/* End .entry-meta */}
               <h3 className="entry-title">
                 <a href="single.html">Quisque volutpat mattis eros.</a>
               </h3>
-              {/* End .entry-title */}
               <div className="entry-content">
                 <a href="single.html" className="read-more">
                   Continue Reading
                 </a>
               </div>
-              {/* End .entry-content */}
             </div>
-            {/* End .entry-body */}
-          </article>
-          <article className="entry entry-display p-2">
-            <figure className="entry-media">
-              <a href="single.html">
-                <img
-                  src="assets/images/demos/demo-2/blog/post-3.jpg"
-                  alt="image desc"
-                />
-              </a>
-            </figure>
-            {/* End .entry-media */}
-            <div className="entry-body text-center">
-              <div className="entry-meta">
-                <a href="#">Dec 19, 2018</a>, 2 Comments
-              </div>
-              {/* End .entry-meta */}
-              <h3 className="entry-title">
-                <a href="single.html">Quisque volutpat mattis eros.</a>
-              </h3>
-              {/* End .entry-title */}
-              <div className="entry-content">
-                <a href="single.html" className="read-more">
-                  Continue Reading
-                </a>
-              </div>
-              {/* End .entry-content */}
-            </div>
-            {/* End .entry-body */}
-          </article>
+          </article> */}
 
             </div>
             {/* End .row */}

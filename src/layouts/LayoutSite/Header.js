@@ -21,7 +21,7 @@ function Header() {
   ListCart.forEach(function (item) {
     TotalCart += item.quantity * item.price;
   });
-  const logoutSubmit = async (e) => {
+  const logoutSubmit = async () => {
     try {
       const result = await UserServices.logout();
       dispatch(clearAuth())
@@ -44,7 +44,7 @@ function Header() {
             <li>
               <a href="tel:#">
                 <i className="icon-phone" />
-                Call: +0123 456 789
+                Liên hệ: +0123 456 789
               </a>
             </li>
             {/* <li>
@@ -88,14 +88,14 @@ function Header() {
           <span className="sr-only">Toggle mobile menu</span>
           <i className="icon-bars" />
         </button>
-        <a href="index.html" className="logo">
+        {/* <a href="index.html" className="logo">
           <img
             src="assets/images/demos/demo-2/logo.png"
             alt="Molla Logo"
             width={105}
             height={25}
           />
-        </a>
+        </a> */}
       </div>
       {/* End .header-left */}
       <div className="header-center">

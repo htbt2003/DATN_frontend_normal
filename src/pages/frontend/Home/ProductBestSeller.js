@@ -29,7 +29,7 @@ function ProductBestSeller({ data }) {
             {
                   (products && products.length > 0 && products.map(function (product, index) {
                       return (
-                         <ProductItem02 product={product} key={index}/>
+                         <ProductItem02 product={product} key={index} type={'hot'}/>
                         );
                     }))
               }

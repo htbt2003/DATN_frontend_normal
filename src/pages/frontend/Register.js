@@ -3,47 +3,52 @@ import { Link, useNavigate } from "react-router-dom";
 import UserServices from '../../services/UserServices';
 
 const Register = () => {
-    const navigator = useNavigate();
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [address, setAddress] = useState("");
-    const [gender, setGender] = useState();
-    document.title = "Đăng ký";
-    function UserStore(event)
-    {
-        event.preventDefault();//không load lại trang
-        // const image = document.querySelector("#image");
-        var user = {
-          name: name,
-          email: email,
-          phone: phone,
-          username: username,
-          password: password,
-          address: address,
-          roles: "user",
-          status: 1,
-          gender: gender,
-          image: "user.png",
-        };
-        UserServices.register(user)
-        .then(function(result) {
-            // alert(result.message);
-            navigator("/dang-nhap", {replace:true})
-        });
+  const navigator = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [gender, setGender] = useState();
+  const [image, setImage] = useState();
+  document.title = "Đăng ký";
+  function UserStore(event) {
+    event.preventDefault();//không load lại trang
+    // const image = document.querySelector("#image");
+    var user = {
+      name: name,
+      email: email,
+      phone: phone,
+      username: username,
+      password: password,
+      address: address,
+      roles: "user",
+      status: 1,
+      gender: 1,
+      image: image,
+    };
+    UserServices.register(user)
+      .then(function (result) {
+        alert(result.message);
+        navigator("/dang-nhap", { replace: true })
+      });
+  }
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(e.target.files[0]);
     }
-    return ( 
-      <main className="main">
+  };
+  return (
+    <main className="main">
       <nav aria-label="breadcrumb" className="breadcrumb-nav border-0 mb-0">
         <div className="container">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
+              <a href="index.html">Trang chủ</a>
             </li>
             <li className="breadcrumb-item">
-              <a href="#">Pages</a>
+              <a href="#">Đăng ký</a>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Login
@@ -73,7 +78,7 @@ const Register = () => {
                     aria-controls="register-2"
                     aria-selected="true"
                   >
-                    Register
+                    Đăng ký
                   </a>
                 </li>
               </ul>
@@ -85,12 +90,97 @@ const Register = () => {
                   aria-labelledby="register-tab-2"
                 >
                   <form onSubmit={UserStore}>
+                    <div className="position-relative" style={{ width: '100px', height: '100px', marginLeft:'160px' }}>
+                      <input
+                      id='image'
+                        type="file"
+                        className="form-control d-none"
+                        onChange={handleImageChange}
+                      />
+                      <label
+                        htmlFor='image'
+                        className="d-flex justify-content-center align-items-center w-100 h-100 border border-dashed border-secondary rounded cursor-pointer"
+                        style={{ cursor: 'pointer' }}
+                      >
+                        {image ? (
+                          <img
+                            src={URL.createObjectURL(image)}
+                            alt=""
+                            className="w-100 h-100 rounded"
+                            style={{ objectFit: 'cover' }}
+                          />
+                        ) : (
+                          <div className="text-center bg-white rounded">
+                            <svg
+                              className="mx-auto"
+                              width="48"
+                              height="48"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            <span className="mt-2 d-block text-sm font-medium text-secondary">Tải lên</span>
+                          </div>
+                        )}
+                      </label>
+                    </div>
                     <div className="form-group">
                       <label htmlFor="register-email-2">
-                        Your email address *
+                        Họ tên *
                       </label>
                       <input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        type="text"
+                        className="form-control"
+                        id="register-email-2"
+                        name="register-email"
+                        required=""
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="register-email-2">
+                        Email *
+                      </label>
+                      <input
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                         type="email"
+                        className="form-control"
+                        id="register-email-2"
+                        name="register-email"
+                        required=""
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="register-email-2">
+                        Số điện thoại*
+                      </label>
+                      <input
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                        type="text"
+                        className="form-control"
+                        id="register-email-2"
+                        name="register-email"
+                        required=""
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="register-email-2">
+                        Địa chỉ*
+                      </label>
+                      <input
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                        type="text"
                         className="form-control"
                         id="register-email-2"
                         name="register-email"
@@ -101,6 +191,8 @@ const Register = () => {
                     <div className="form-group">
                       <label htmlFor="register-password-2">Password *</label>
                       <input
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                         type="password"
                         className="form-control"
                         id="register-password-2"
@@ -121,31 +213,31 @@ const Register = () => {
                           id="register-policy-2"
                           required=""
                         />
-                        <label
+                        {/* <label
                           className="custom-control-label"
                           htmlFor="register-policy-2"
                         >
                           I agree to the <a href="#">privacy policy</a> *
-                        </label>
+                        </label> */}
                       </div>
                       {/* End .custom-checkbox */}
                     </div>
                     {/* End .form-footer */}
                   </form>
                   <div className="form-choice">
-                    <p className="text-center">or sign in with</p>
+                    <p className="text-center">Hoặc đăng ký với</p>
                     <div className="row">
                       <div className="col-sm-6">
                         <a href="#" className="btn btn-login btn-g">
                           <i className="icon-google" />
-                          Login With Google
+                           Google
                         </a>
                       </div>
                       {/* End .col-6 */}
                       <div className="col-sm-6">
                         <a href="#" className="btn btn-login  btn-f">
                           <i className="icon-facebook-f" />
-                          Login With Facebook
+                           Facebook
                         </a>
                       </div>
                       {/* End .col-6 */}
@@ -166,7 +258,7 @@ const Register = () => {
       </div>
       {/* End .login-page section-bg */}
     </main>
-    );
+  );
 }
- 
+
 export default Register;

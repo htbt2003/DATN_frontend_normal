@@ -74,11 +74,10 @@ function ProductDetail() {
       ...prev,
       [attributeId]: valueId
     }));
-    if (image.length > 0) {
+    if (image && image.length > 0) {
       setCurrentImage(image)
     }
   };
-  console.log( product.detail)
 
   //lấy ra variant từ các giá trị thuộc tính đã chọn---------------------------------
   const findSelectedVariant = (variants, selectedAttributes) => {
@@ -265,7 +264,7 @@ function ProductDetail() {
                               {
                                 !(item.image) ? (
                                   <Link onClick={() => handleAttributeChange(attribute.id, item.id, item.image)} 
-                                  className="active mr-2" 
+                                  className="active mr-2"
                                   style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', color: selectedAttributes[attribute.id] === item.id ? '#fff' : '#a6c76c',
                                     background: selectedAttributes[attribute.id] === item.id ? '#a6c76c' : 'transparent', }}>
                                     {item.attribute_value.name}

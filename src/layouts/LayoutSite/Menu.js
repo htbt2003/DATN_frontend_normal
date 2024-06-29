@@ -20,7 +20,6 @@ function Menu() {
       console.log("wait..")
     }
   }
-  console.log(menus)
   useEffect(function () {
     fetchApi();
   }, [])

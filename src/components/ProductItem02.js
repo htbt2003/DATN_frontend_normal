@@ -13,9 +13,23 @@ function ProductItem02(props) {
     <div className="col-6 col-md-4 col-lg-3 col-xl-5col">
       <div className="product product-7 text-center">
         <figure className="product-media">
-          <span className="product-label label-circle label-sale">
-            Sale
-          </span>
+          {
+             props.product.price_sale != null ?(
+              <span className="product-label label-circle label-sale">
+              Sale
+            </span> 
+             ):(
+              props.type=='new'?(
+                <span className="product-label label-new">New</span>
+              ):(
+                props.type=='hot'?(
+                  <span className="product-label label-circle label-sale">
+              Hot
+            </span> 
+                ):null
+              )
+             )
+          }
           <Link to={"/chi-tiet-san-pham/" + props.product.slug}>
             <img
               src={urlImage + "product/" + props.product.image}
@@ -28,7 +42,7 @@ function ProductItem02(props) {
               className="product-image-hover"
             />
           </Link>
-          <div className="product-action-vertical">
+          {/* <div className="product-action-vertical">
             <Link
               href="#"
               className="btn-product-icon btn-wishlist btn-expandable"
@@ -42,7 +56,7 @@ function ProductItem02(props) {
             >
               <span>Quick view</span>
             </Link>
-          </div>
+          </div> */}
           {/* End .product-action-vertical */}
           <div className="product-action">
             <Link onClick={() => {

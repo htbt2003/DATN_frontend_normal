@@ -116,7 +116,7 @@ function Checkout() {
       order,
       ListCart,
     }
-
+    console.log(orderData)
     await OrderServices.doCheckout(orderData)
       .then(function (result) {
         if (result.status == true) {

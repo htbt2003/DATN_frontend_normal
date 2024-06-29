@@ -6,7 +6,6 @@ function MenuItem(props) {
     const rowmenu = props.menu
     const [menuchilds] = useState(props.menu.children);
     // menuchilds.lenght
-    console.log(menuchilds)
   if(menuchilds.lenght>0){
     return(
         <li>
