@@ -36,7 +36,7 @@ const Login = () => {
         .then(function (result) {
           if (result.status === true) {
             dispatch(setAuth(result))
-            swal("Success", result.message, "success");
+            swal("Thông báo", result.message, "success");
             navigator("/", { replace: true });
           }
           else {
@@ -60,6 +60,7 @@ const Login = () => {
   ///  -----------------
   const responseFacebook = async (response) => {
     try {
+      // console.log(response)
       const result = await UserServices.login_facebook(response)
       dispatch(setAuth(result))
       swal("Success", result.message, "success");
@@ -71,6 +72,7 @@ const Login = () => {
   ///  login với google-----------------
   const responseGoogle = async (response) => {
     try {
+      console.log(response)
       const result = await UserServices.login_google(response)
       dispatch(setAuth(result))
       swal("Success", result.message, "success");

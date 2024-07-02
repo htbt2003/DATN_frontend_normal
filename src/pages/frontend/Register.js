@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserServices from '../../services/UserServices';
+import swal from "sweetalert";
 
 const Register = () => {
   const navigator = useNavigate();
@@ -30,8 +31,13 @@ const Register = () => {
     };
     UserServices.register(user)
       .then(function (result) {
-        alert(result.message);
-        navigator("/dang-nhap", { replace: true })
+        if(result.status){
+          swal("Thông báo", result.message, "success");
+          navigator("/dang-nhap", { replace: true })  
+        }
+        else{
+          swal("Cảnh báo", result.message, "warning");
+        }
       });
   }
   const handleImageChange = (e) => {

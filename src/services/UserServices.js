@@ -12,17 +12,13 @@ const UserService = {
     {
         return httpAxios.post("login", data);
     },
-    loginWithFacebook:() =>
-    {
-        return httpAxios.get('/login/facebook');
-    },
     login_facebook:(data) =>
     {
-        return httpAxios.post("login_facebook", data);
+        return httpAxios.post("loginFacebook", data);
     },
     login_google:(data) =>
     {
-        return httpAxios.post("login_google", data);
+        return httpAxios.post("loginGoogle", data);
     },
     logout:() =>
     {

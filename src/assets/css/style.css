@@ -8082,7 +8082,8 @@ a:focus {
   margin-top: 1rem; }
 
 .btn-cart:before {
-  content: '\e812'; }
+  /* content: '\e812'; */
+ }
 
 .btn-wishlist {
   font-size: 1.6rem; }

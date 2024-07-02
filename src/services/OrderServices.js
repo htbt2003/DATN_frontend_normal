@@ -58,5 +58,9 @@ const OrderService = {
     {
         return httpAxios.get("orderDetail/" + order_id);
     },
+    getUSDRate:() =>
+    {
+        return httpAxios.get("getUSDRate");
+    },
 }
 export default OrderService;

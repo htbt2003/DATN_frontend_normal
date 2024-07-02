@@ -3,7 +3,7 @@ import ProductServices from '../../../services/ProductServices';
 import { Link, useParams } from "react-router-dom";
 import { urlImage } from "../../../config";
 import ProductItem03 from "../../../components/ProductItem03";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import React from 'react'
 import ProductReview from "./ProductReview.js";
 import { AddCart } from '../../../redux/cartSlice';
@@ -14,7 +14,11 @@ import "slick-carousel/slick/slick-theme.css";
 import { FaChevronUp } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 import ReviewServies from "../../../services/ReviewServies.js";
+import CartServices from "../../../services/CartServices.js";
+import { v4 as uuidv4 } from 'uuid';
+
 function ProductDetail() {
+    const numberCart = useSelector((state)=> state.cart.numberCart);
   const [images, setImages] = useState([]);
   const [currentImage, setCurrentImage] = useState([]);
   const sliderRef = useRef(null);
@@ -28,6 +32,9 @@ function ProductDetail() {
   const [reload, setReload] = useState();
   const [selectedAttributes, setSelectedAttributes] = useState([]);
   const [addcart, setaddcart] = useState([]);
+  const [qty, setQty] = useState(1);
+  const [deviceId, setDeviceId] = useState(1);
+
   useEffect(() => {
     document.title = product.name || 'Product Detail';
   }, [product]);
@@ -48,7 +55,15 @@ function ProductDetail() {
     }
   };
   useEffect(function () {
-    // window.scroll(0, 0);
+    const getDeviceId = () => {
+      let deviceId = localStorage.getItem('device_id');
+      if (!deviceId) {
+        deviceId = uuidv4();
+        localStorage.setItem('device_id', deviceId);
+      }
+      return deviceId;
+    };
+    setDeviceId(getDeviceId);
     fetchAPI()
   }, [slug, reload])
   const settings = {
@@ -105,16 +120,23 @@ function ProductDetail() {
       setaddcart(product);
     }
   }, [selectedAttributes, variants, product]);
-  const handleAddCart = () => {
-    if(variants.length>0 && !addcart){
+  const handleAddCart = async () => {
+    if (variants.length > 0 && !addcart) {
       swal("Cảnh báo", "Vui lòng đưa ra lựa chọn", "warning");
     }
     else{
-      dispatch(AddCart(addcart));
-      swal("Thành công", "Thêm vào giỏ hàng thành công", "success");  
+      const data={
+        deviceId:deviceId,
+        variant_id:addcart.product_id ? addcart.id : null,
+        product_id:addcart.product_id || addcart.id,
+        quantity:qty,
+      }
+      const result = await CartServices.addCart(data);
+      dispatch(AddCart({ qty }));
+      swal("Thành công", result.message, "success");
     }
   };
-  ///------------------------------------------------------------------------------------
+    ///------------------------------------------------------------------------------------
   return (
     <>
       <main className="main">
@@ -263,10 +285,12 @@ function ProductDetail() {
                             <div key={index} className="gallery-thumbnail">
                               {
                                 !(item.image) ? (
-                                  <Link onClick={() => handleAttributeChange(attribute.id, item.id, item.image)} 
-                                  className="active mr-2"
-                                  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', color: selectedAttributes[attribute.id] === item.id ? '#fff' : '#a6c76c',
-                                    background: selectedAttributes[attribute.id] === item.id ? '#a6c76c' : 'transparent', }}>
+                                  <Link onClick={() => handleAttributeChange(attribute.id, item.id, item.image)}
+                                    className="active mr-2"
+                                    style={{
+                                      display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', color: selectedAttributes[attribute.id] === item.id ? '#fff' : '#a6c76c',
+                                      background: selectedAttributes[attribute.id] === item.id ? '#a6c76c' : 'transparent',
+                                    }}>
                                     {item.attribute_value.name}
                                   </Link>
                                 ) : (
@@ -336,21 +360,29 @@ function ProductDetail() {
                     {/* End .details-filter-row */}
                     {/* End .details-filter-row */}
                     <div className="product-details-action">
-                      <div class="row">
-                        <div class="col-md-2">
-                          <label for="qty" class="col-form-label">Qty:</label>
+                      <div className="row">
+                        <div className="col-md-2">
+                          <label className="col-form-label">Qty:</label>
                         </div>
-                        <div class="col-md-6">
-                          <div class="input-group">
-                            <input type="number" id="qty" class="form-control" min="1" max="10" step="1" data-decimals="0" value="1" />
+                        <div className="col-md-6">
+                          <div className="input-group">
+                            <input
+                              type="number"
+                              className="form-control"
+                              min="1"
+                              max="10"
+                              data-decimals="0"
+                              value={qty}
+                              onChange={(e)=>setQty(e.target.value)}
+                            />
                           </div>
                         </div>
                       </div>
-                      <div className="btn-cart"
+                      <Link className="btn-cart"
                         onClick={handleAddCart}
                       >
                         <span>Thêm vào giỏ hàng</span>
-                      </div>
+                      </Link>
                       {/* End .details-action-wrapper */}
                     </div>
                     {/* End .product-details-action */}

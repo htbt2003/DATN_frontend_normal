@@ -16,11 +16,12 @@ function Header() {
   const navigator = useNavigate();
   const token = useSelector((state)=> state.auth.token);
   const numberCart = useSelector((state)=> state.cart.numberCart);
-  let ListCart = useSelector((state)=> state.cart.Carts);
-  let TotalCart = 0;
-  ListCart.forEach(function (item) {
-    TotalCart += item.quantity * item.price;
-  });
+  // let ListCart = useSelector((state)=> state.cart.Carts);
+  // let TotalCart = 0;
+  // ListCart.forEach(function (item) {
+  //   TotalCart += item.quantity * item.price;
+  // });
+  // const numberCart = localStorage.getItem('numberCart');
   const logoutSubmit = async () => {
     try {
       const result = await UserServices.logout();
@@ -88,14 +89,14 @@ function Header() {
           <span className="sr-only">Toggle mobile menu</span>
           <i className="icon-bars" />
         </button>
-        {/* <a href="index.html" className="logo">
+        <a href="index.html" className="logo">
           <img
             src="assets/images/demos/demo-2/logo.png"
             alt="Molla Logo"
             width={105}
             height={25}
           />
-        </a> */}
+        </a>
       </div>
       {/* End .header-left */}
       <div className="header-center">

@@ -1,41 +1,114 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { urlImage } from '../../../config';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { DecreaseQuantity, IncreaseQuantity, DeleteCart } from '../../../redux/cartSlice';
+import { DecreaseQuantity, IncreaseQuantity, DeleteCart, UpdateCart } from '../../../redux/cartSlice';
 import swal from 'sweetalert';
-
+import CartServices from '../../../services/CartServices';
 
 function Cart() {
+  const navigator = useNavigate();
   const dispatch = useDispatch();
-  let ListCart = useSelector((state) => state.cart.Carts);
+  const [reload, setReload] = useState();
+  const [ListCart, setListCart] = useState([]);
+  const [selectedproducts, setSelectedproducts] = useState([]);
+
+  useEffect(function () {
+    const deviceId = localStorage.getItem('device_id');
+    const fetchAPI = async () => {
+      try {
+        const result = await CartServices.getList(deviceId);
+        setListCart(result.ListCart);
+        localStorage.setItem('numberCart', result.ListCart.length);
+      }
+      catch (error) {
+        console.log('wait...')
+      }
+    }
+    fetchAPI()
+  }, [reload])
+  //Tính tổng giỏ hàng
   let TotalCart = 0;
-  console.log(ListCart)
-  ListCart.forEach(function (item) {
+  ListCart && ListCart.forEach(function (item) {
     TotalCart += item.quantity * item.price;
+    if (item.status == 1) {
+      selectedproducts.push(item.id);
+    }
   });
-  const handleDelete = (key) => {
+
+  const handleDelete = (item) => {
     swal({
-        title: "Bạn có chắc muốn xóa sản phẩm này?",
-        // text: "Nếu bạn xóa sản phẩm này, nó sẽ không thể khôi phục lại!",
-        icon: "warning",
-        buttons: {
-            cancel: "Không",
-            confirm: {
-                text: "Có",
-                value: true,
-                visible: true,
-                className: "btn-delete",
-                closeModal: true
-            }
+      title: "Bạn có chắc muốn xóa sản phẩm này?",
+      // text: "Nếu bạn xóa sản phẩm này, nó sẽ không thể khôi phục lại!",
+      icon: "warning",
+      buttons: {
+        cancel: "Không",
+        confirm: {
+          text: "Có",
+          value: true,
+          visible: true,
+          className: "btn-delete",
+          closeModal: true
         }
-    }).then((result) => {
-        if (result) {
-            // Dispatch delete action here
-            dispatch(DeleteCart(key))
-        }
+      }
+    }).then(async (result) => {
+      if (result) {
+        const qty = item.quantity
+        const result = await CartServices.delete(item.id);
+        dispatch(DeleteCart({ qty }));
+        setReload(Date.now())
+      }
     });
   };
+
+  const handleIncrease = async (id) => {
+    const result = await CartServices.increase(id);
+    dispatch(IncreaseQuantity());
+    setReload(Date.now())
+  };
+  const handleDecrease = async (id) => {
+    const result = await CartServices.decrease(id);
+    dispatch(DecreaseQuantity());
+    setReload(Date.now())
+  };
+
+  const handleUpdateQty = async (item, e) => {
+    const newQty = e.target.value
+
+    const result = await CartServices.update_qty(item.id, newQty);
+
+    if (!result.status) {
+      swal("Cảnh báo", "Rất tiếc, bạn chỉ có thể mua " + result.inventory + " sản phẩm", "warning");
+      e.target.value = result.inventory
+      await CartServices.update_qty(item.id, e.target.value);
+      // dispatch(UpdateCart({ qtyOld: item.quantity, qtyNew: result.inventory}));
+    } else {
+      dispatch(UpdateCart({ qtyOld: item.quantity, qtyNew: newQty }));
+    }
+
+    setReload(Date.now())
+  };
+
+  const handleCheckbox = async (item) => {
+    if (selectedproducts.includes(item.id)) {
+      setSelectedproducts(prevSelected => prevSelected.filter(id => id !== item.id));
+    } else {
+      setSelectedproducts(prevSelected => [...prevSelected, item.id]);
+    }
+    const result = await CartServices.selected(item.id);
+    if (!result.status) {
+      swal("Cảnh báo", result.message, "warning");
+    }
+    setReload(Date.now())
+  };
+  const handleThanhToan = () => {
+    if (selectedproducts.length === 0) {
+      swal("Cảnh báo", 'Vui lòng chọn ít nhất một sản phẩm để thanh toán.', "warning");
+    } else {
+      navigator("/thanh-toan");
+    }
+  };
+
   if (ListCart.length > 0) {
     return (
       <>
@@ -59,10 +132,10 @@ function Cart() {
                   <a href="index.html">Trang chủ</a>
                 </li>
                 <li className="breadcrumb-item">
-                  <a href="#">Shop</a>
+                  <a href="#">Cửa hàng</a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Shopping Cart
+                  Giỏ hàng
                 </li>
               </ol>
             </div>
@@ -77,48 +150,81 @@ function Cart() {
                     <table className="table table-cart table-mobile">
                       <thead>
                         <tr>
-                          <th>Product</th>
-                          <th>Price</th>
-                          <th>Quantity</th>
-                          <th>Total</th>
+                          <th>Sản phẩm</th>
+                          <th>Giá</th>
+                          <th>Số lượng</th>
+                          <th>Tổng</th>
                           <th />
                         </tr>
                       </thead>
                       <tbody>
                         {
                           ListCart.map((item, key) => {
-                            if(item.variant_values){
+                            if (item.variant) {
+                              let image = item.image;
+                              let hinhanh = urlImage + "product/" + image;
+                              item.variant.variant_values.forEach(function (item1) {
+                                if (item1.product_attribute_value.image != null) {
+                                  image = item1.product_attribute_value.image;
+                                  hinhanh = urlImage + "pro_attribute/" + image;
+                                }
+                              });
                               return (
                                 <tr key={key}>
-                                  <td className="product-col">
-                                    <div className="product">
+
+                                  <td className="product-col d-flex justify-content-between align-items-center">
+                                    <input
+                                      style={{ height: '18px', width: '18px' }}
+                                      type="checkbox"
+                                      className="align-middle form-check-input d-flex align-items-center justify-content-center border border-secondary text-white bg-brand-500"
+                                      id={"category" + item.id}
+                                      onChange={() => handleCheckbox(item)}
+                                      checked={selectedproducts.includes(item.id)}
+                                    />
+                                    <div className="product ml-4">
                                       <figure className="product-media">
                                         <a href="#">
                                           <img
-                                            src={urlImage + "pro_attribute/" + item.image}
+                                            src={hinhanh}
                                             alt="Product image"
                                           />
                                         </a>
                                       </figure>
                                       <div className="product-title">
-                                      <h5>
-                                        <Link>{item.name}</Link>
-                                      </h5>
-                                      <div className="product-title">
-                                      {item.variant_values.map((item1, index) => 
-                                        <a className='mr-3 text-muted' key={index}>{item1.product_attribute_value.attribute_value.name}</a>
-                                      )}
-                                      </div>
+                                        <h5>
+                                          <Link>{item.name}</Link>
+                                        </h5>
+                                        <div className="product-title">
+                                          {item.variant.variant_values.map((item2, index) =>
+                                            <a className='mr-3 text-muted' key={index}>{item2.product_attribute_value.attribute_value.name}</a>
+                                          )}
+                                        </div>
                                       </div>
                                       {/* End .product-title */}
                                     </div>
                                     {/* End .product */}
                                   </td>
-                                  <td className="price-col">{(item.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                                  <td className="price-col">
+                                    {item.price_sale ? (
+                                      <>
+                                        <div style={{ textDecoration: 'line-through', color: 'red' }}>
+                                          {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                        </div>
+                                        <div>
+                                          {item.price_sale.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <div>
+                                        {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                      </div>
+                                    )}
+                                  </td>
+
                                   <td className="quantity-col">
                                     <div className="cart-product-quantity">
                                       <div className="input-group  input-spinner">
-                                        <div className="input-group-prepend" onClick={() => dispatch(DecreaseQuantity(key))}>
+                                        <div className="input-group-prepend" onClick={() => handleDecrease(item.id)}>
                                           <button
                                             style={{ minWidth: 26 }}
                                             className="btn btn-decrement btn-spinner"
@@ -134,10 +240,16 @@ function Cart() {
                                           required=""
                                           placeholder=""
                                           value={item.quantity}
+                                          onChange={(e) => {
+                                            const updatedListCart = [...ListCart];
+                                            updatedListCart[key].quantity = e.target.value;
+                                            setListCart(updatedListCart);
+                                          }}
+                                          onBlur={(e) => handleUpdateQty(item, e)}
                                         />
                                         <div className="input-group-append">
                                           <button
-                                            onClick={() => dispatch(IncreaseQuantity(key))}
+                                            onClick={() => handleIncrease(item.id)}
                                             style={{ minWidth: 26 }}
                                             className="btn btn-increment btn-spinner"
                                             type="button"
@@ -151,18 +263,26 @@ function Cart() {
                                   </td>
                                   <td className="total-col">{(item.price * item.quantity).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                                   <td className="remove-col">
-                                    <button className="btn-remove" onClick={() => handleDelete(key)}>
+                                    <button className="btn-remove" onClick={() => handleDelete(item)}>
                                       <i className="icon-close" />
                                     </button>
                                   </td>
                                 </tr>
-                              )  
+                              )
                             }
-                            else{
+                            else {
                               return (
-                                <tr>
-                                  <td className="product-col">
-                                    <div className="product">
+                                <tr key={key}>
+                                  <td className="product-col d-flex justify-content-between align-items-center">
+                                    <input
+                                      style={{ height: '18px', width: '18px' }}
+                                      type="checkbox"
+                                      className="align-middle form-check-input d-flex align-items-center justify-content-center border border-secondary text-white bg-brand-500"
+                                      id={"category" + item.id}
+                                      onChange={() => handleCheckbox(item)}
+                                      checked={selectedproducts.includes(item.id)}
+                                    />
+                                    <div className="product ml-4">
                                       <figure className="product-media">
                                         <a href="#">
                                           <img
@@ -181,8 +301,8 @@ function Cart() {
                                   <td className="price-col">{(item.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                                   <td className="quantity-col">
                                     <div className="cart-product-quantity">
-                                      <div className="input-group  input-spinner">
-                                        <div className="input-group-prepend" onClick={() => dispatch(DecreaseQuantity(key))}>
+                                      <div className="input-group input-spinner">
+                                        <div className="input-group-prepend" onClick={() => handleDecrease(item.id)}>
                                           <button
                                             style={{ minWidth: 26 }}
                                             className="btn btn-decrement btn-spinner"
@@ -195,13 +315,17 @@ function Cart() {
                                           type="number"
                                           style={{ textAlign: "center" }}
                                           className="form-control "
-                                          required=""
-                                          placeholder=""
                                           value={item.quantity}
+                                          onChange={(e) => {
+                                            const updatedListCart = [...ListCart];
+                                            updatedListCart[key].quantity = e.target.value;
+                                            setListCart(updatedListCart);
+                                          }}
+                                          onBlur={(e) => handleUpdateQty(item.id, e)}
                                         />
                                         <div className="input-group-append">
                                           <button
-                                            onClick={() => dispatch(IncreaseQuantity(key))}
+                                            onClick={() => handleIncrease(item.id)}
                                             style={{ minWidth: 26 }}
                                             className="btn btn-increment btn-spinner"
                                             type="button"
@@ -215,13 +339,13 @@ function Cart() {
                                   </td>
                                   <td className="total-col">{(item.price * item.quantity).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                                   <td className="remove-col">
-                                    <button className="btn-remove" onClick={() => handleDelete(key)}>
+                                    <button className="btn-remove" onClick={() => handleDelete(item)}>
                                       <i className="icon-close" />
                                     </button>
                                   </td>
                                 </tr>
-  
-                              )  
+
+                              )
                             }
                           })
 
@@ -354,12 +478,12 @@ function Cart() {
                         </tbody>
                       </table>
                       {/* End .table table-summary */}
-                      <Link
-                        to={"/thanh-toan"}
+                      <button
+                        onClick={handleThanhToan}
                         className="btn btn-outline-primary-2 btn-order btn-block"
                       >
                         Thanh toán
-                      </Link>
+                      </button>
                     </div>
                     {/* End .summary */}
                     <a

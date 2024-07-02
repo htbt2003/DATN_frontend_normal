@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import OrderServices from '../../../services/OrderServices';
 import UserServices from '../../../services/UserServices';
 import swal from "sweetalert";
-import ReactDOM from 'react-dom';
-// import {PayPalScriptProvider,PayPalButtons} from "@paypal/react-paypal-js";
+// import ReactDOM from 'react-dom';
+import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useSelector, useDispatch } from 'react-redux'
-import { ClearCart } from '../../../redux/cartSlice';
+import { ClearCart, DeleteCart } from '../../../redux/cartSlice';
+import CartServices from "../../../services/CartServices";
+// 55281f5fd4dfce1a24054035
 
 function Checkout() {
   const navigator = useNavigate();
@@ -18,18 +20,26 @@ function Checkout() {
   const [phone, setPhone] = useState("");
   const [note, setNote] = useState("");
   const [payment, setPayment] = useState("");
+  const [USDRate, setUSDRate] = useState("");
+  const [Cart, setCart] = useState([]);
+
 
   // const [user, setUser] = useState([])
-  let Carts = useSelector((state) => state.cart.Carts);
-  let TotalCart = 0;
-  Carts.forEach(function (item) {
-    const price = item.price_sale || (item.sale ? item.sale.price_sale : item.price)
-    TotalCart += item.quantity * price;
-  });
   const fetchAPI = async () => {
     try {
       if (!user) {
         navigator("/dang-nhap")
+      }
+      else {
+        const deviceId = localStorage.getItem('device_id');
+        const [USDRate, ListSelect] = await Promise.all([
+          OrderServices.getUSDRate(),
+          CartServices.getListSelected(deviceId),
+        ]);
+  
+        setCart(ListSelect.ListCart);
+        setUSDRate(USDRate.vnd_to_usd);
+
       }
     }
     catch (error) {
@@ -39,14 +49,24 @@ function Checkout() {
   useEffect(function () {
     fetchAPI()
   }, [])
+  //tính tổng và số lượng mua hàng
+  let TotalCart = 0;
+  let qtyCart = 0;
+  Cart.forEach(function (item) {
+    const price = item.price_sale || (item.sale ? item.sale.price_sale : item.price)
+    TotalCart += item.quantity * price;
+    qtyCart += item.quantity
+  });
+
+  // console.log((TotalCart * USDRate).toFixed(2))
   //paypal
-  const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
+  // const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
   const createOrder = (data, actions) => {
     return actions.order.create({
       purchase_units: [
         {
           amount: {
-            value: 1,
+            value: (TotalCart * USDRate).toFixed(2),
           },
         },
       ],
@@ -64,25 +84,26 @@ function Checkout() {
         note: note,
       }
       var ListCart = [];
-      Carts.forEach((item) => {
+      Cart.forEach((item) => {
         ListCart = [...ListCart,
         {
-          product_id: item.product_id ? item.product_id : item.id,
-          variant_id: item.product_id ? item.id : null,
+          id:item.id,
+          product_id: item.product_id,
+          variant_id: item.variant_id,
           quantity: item.quantity,
-          price: item.price_sale || (item.sale ? item.sale.price_sale : item.price),
+          price: item.price_sale || item.price,
           cost: item.cost || null,
         }
         ]
       });
-  
+
       const orderData = {
         order,
         ListCart,
       }
       await OrderServices.doCheckout(orderData)
         .then(function (result) {
-          dispatch(ClearCart())
+          dispatch(DeleteCart({qty: qtyCart}));
           swal("Thành công", result.message, "success");
           navigator("/", { replace: true });
         });
@@ -100,13 +121,14 @@ function Checkout() {
       note: note,
     }
     var ListCart = [];
-    Carts.forEach((item) => {
+    Cart.forEach((item) => {
       ListCart = [...ListCart,
       {
-        product_id: item.product_id ? item.product_id : item.id,
-        variant_id: item.product_id ? item.id : null,
+        id:item.id,
+        product_id: item.product_id,
+        variant_id: item.variant_id,
         quantity: item.quantity,
-        price: item.price_sale || (item.sale ? item.sale.price_sale : item.price),
+        price: item.price_sale || item.price,
         cost: item.cost || null,
       }
       ]
@@ -116,17 +138,17 @@ function Checkout() {
       order,
       ListCart,
     }
-    console.log(orderData)
+    // dispatch(ClearCart());
     await OrderServices.doCheckout(orderData)
       .then(function (result) {
         if (result.status == true) {
-          dispatch(ClearCart())
+          dispatch(DeleteCart({qty: qtyCart}));
           swal("Success", result.message, "success");
           navigator("/", { replace: true })
         }
       });
   }
-  console.log(payment)
+  console.log(Cart)
   return (
     <>
       <main className="main">
@@ -225,7 +247,7 @@ function Checkout() {
                         </thead>
                         <tbody>
                           {
-                            Carts.map((item, key) => {
+                            Cart.map((item, key) => {
                               return (
                                 <tr key={key}>
                                   <td>
@@ -256,28 +278,40 @@ function Checkout() {
                       </table>
                       {/* End .table table-summary */}
                       <div className="accordion-summary" id="accordion-payment">
-                        <div className="p-2">
-                          <div className="flex items-center gap-x-3">
+                        <div className="">
+                          <div className="custom-control custom-radio">
                             <input
-                              id="push-everything"
                               type="radio"
-                              className=""
+                              id="free-shipping"
+                              name="shipping"
+                              className="custom-control-input"
                               value="0"
                               checked={payment === "0"}
                               onChange={(e) => setPayment(e.target.value)}
                             />
-                            <label htmlFor="push-everything" className="text-sm">Thanh toán khi nhận hàng</label>
+                            <label
+                              className="custom-control-label"
+                              htmlFor="free-shipping"
+                            >
+                              Thanh toán khi nhận hàng
+                            </label>
                           </div>
-                          <div className="flex items-center">
+                          <div className="custom-control custom-radio">
                             <input
-                              id="push-everything2"
                               type="radio"
-                              className=""
+                              id="free-shipping1"
+                              name="shipping"
+                              className="custom-control-input"
                               value="1"
                               checked={payment === "1"}
                               onChange={(e) => setPayment(e.target.value)}
                             />
-                            <label htmlFor="push-everything2" className="text-sm">Thanh toán Paypal</label>
+                            <label
+                              className="custom-control-label"
+                              htmlFor="free-shipping1"
+                            >
+                              Thanh toán Paypal
+                            </label>
                           </div>
                         </div>
                       </div>
@@ -285,14 +319,20 @@ function Checkout() {
 
                       {
                         payment === '1' ? (
-                          <PayPalButton
-                            createOrder={(data, actions) => createOrder(data, actions)}
-                            onApprove={(data, actions) => onApprove(data, actions)}
+                          // <PayPalButton
+                          //   createOrder={(data, actions) => createOrder(data, actions)}
+                          //   onApprove={(data, actions) => onApprove(data, actions)}
+                          // />
+                          <PayPalButtons
+                            createOrder={createOrder}
+                            onApprove={onApprove}
                           />
+
                         ) : (
                           <button
                             type="submit"
                             className="btn-outline-primary-2 btn-order btn-block"
+                            // onClick={}
                           >
                             <span className="btn-text">Thanh toán</span>
                           </button>
