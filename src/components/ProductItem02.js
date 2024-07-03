@@ -78,24 +78,24 @@ function ProductItem02(props) {
             props.product.price_sale != null ?
               (
                 <div className="product-price">
-                  <span className="new-price">{props.product.price_sale}đ</span>
-                  <span className="old-price">Was {props.product.price}đ</span>
+                  <span className="new-price">{props.product.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                  <span className="old-price">- {props.product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                 </div>
               )
               :
               (
                 <div className="product-price">
-                  <span className="new-price">{props.product.price}đ</span>
+                  <span className="new-price">{props.product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                 </div>
               )
           }
           {/* End .product-price */}
-          {/* <div className="ratings-container">
+          <div className="ratings-container">
             <div className="ratings">
-              <div className="ratings-val" style={{ width: "40%" }} />
+              <div className="ratings-val" style={{ width: `${props.product.avg_rating * 20}%` }} />
             </div>
-            <span className="ratings-text">( 4 Reviews )</span>
-          </div> */}
+            <span className="ratings-text">( {props.product.sum_qty_selled? props.product.sum_qty_selled : 0} đã bán)</span>
+          </div>
           {/* End .rating-container */}
           {/* color */}
           {/* <div className="product-nav product-nav-dots">
@@ -109,8 +109,8 @@ function ProductItem02(props) {
             <Link href="#" style={{ background: "#333333" }}>
               <span className="sr-only">Color name</span>
             </Link>
-          </div>
- */}
+          </div> */}
+
         </div>
         {/* End .product-body */}
       </div>

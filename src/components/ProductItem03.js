@@ -11,7 +11,23 @@ function ProductItem03(props) {
     return ( 
     <div className="product product-7 text-center">
       <figure className="product-media">
-        <span className="product-label label-new">New</span>
+      {
+             props.product.price_sale != null ?(
+              <span className="product-label label-circle label-sale">
+              Sale
+            </span> 
+             ):(
+              props.type=='new'?(
+                <span className="product-label label-new">New</span>
+              ):(
+                props.type=='hot'?(
+                  <span className="product-label label-circle label-sale">
+              Hot
+            </span> 
+                ):null
+              )
+             )
+          }
         <Link to={"/chi-tiet-san-pham/" + props.product.slug}>
           <img
             src={urlImage + "product/" + props.product.image}
@@ -59,25 +75,25 @@ function ProductItem03(props) {
             props.product.price_sale!=null ?
             (
               <div className="product-price">
-                <span className="new-price">{props.product.price_sale}đ</span>
-                <span className="old-price">Was {props.product.price}đ</span>
+                <span className="new-price">{props.product.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                <span className="old-price">- {props.product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
               </div>
             )
             :
             (
               <div className="product-price">
-                <span className="new-price">{props.product.price}đ</span>
+                <span className="new-price">{props.product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
               </div>
             )
           }
         {/* End .product-price */}
-        {/* <div className="ratings-container">
+        <div className="ratings-container">
           <div className="ratings">
-            <div className="ratings-val" style={{ width: "20%" }} />
+            <div className="ratings-val" style={{ width: `${props.product.avg_rating * 20}%` }} />
           </div>
-          <span className="ratings-text">( 2 Reviews )</span>
+          <span className="ratings-text">( {props.product.sum_qty_selled? props.product.sum_qty_selled : 0} đã bán )</span>
         </div>
-        <div className="product-nav product-nav-thumbs">
+        {/* <div className="product-nav product-nav-thumbs">
           <Link href="#" className="active">
             <img
               src="assets/images/products/product-4-thumb.jpg"

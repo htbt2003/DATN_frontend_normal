@@ -192,7 +192,7 @@ function Cart() {
                                       </figure>
                                       <div className="product-title">
                                         <h5>
-                                          <Link>{item.name}</Link>
+                                          <Link>{item.variant.name}</Link>
                                         </h5>
                                         <div className="product-title">
                                           {item.variant.variant_values.map((item2, index) =>
@@ -208,27 +208,28 @@ function Cart() {
                                     {item.price_sale ? (
                                       <>
                                         <div style={{ textDecoration: 'line-through', color: 'red' }}>
-                                          {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                          {item.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                         </div>
                                         <div>
-                                          {item.price_sale.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                          {item.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                         </div>
                                       </>
                                     ) : (
                                       <div>
-                                        {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                        {item.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                       </div>
                                     )}
                                   </td>
 
                                   <td className="quantity-col">
                                     <div className="cart-product-quantity">
-                                      <div className="input-group  input-spinner">
-                                        <div className="input-group-prepend" onClick={() => handleDecrease(item.id)}>
+                                      <div className="input-group input-spinner">
+                                        <div className="input-group-prepend" >
                                           <button
                                             style={{ minWidth: 26 }}
                                             className="btn btn-decrement btn-spinner"
                                             type="button"
+                                            onClick={() => handleDecrease(item.id)}
                                           >
                                             <i className="icon-minus" />
                                           </button>
@@ -261,7 +262,7 @@ function Cart() {
                                     </div>
                                     {/* End .cart-product-quantity */}
                                   </td>
-                                  <td className="total-col">{(item.price * item.quantity).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                                  <td className="total-col">{(item.price * item.quantity)?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                                   <td className="remove-col">
                                     <button className="btn-remove" onClick={() => handleDelete(item)}>
                                       <i className="icon-close" />
@@ -298,7 +299,7 @@ function Cart() {
                                     </div>
                                     {/* End .product */}
                                   </td>
-                                  <td className="price-col">{(item.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                                  <td className="price-col">{(item.price)?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                                   <td className="quantity-col">
                                     <div className="cart-product-quantity">
                                       <div className="input-group input-spinner">
@@ -337,7 +338,7 @@ function Cart() {
                                     </div>
                                     {/* End .cart-product-quantity */}
                                   </td>
-                                  <td className="total-col">{(item.price * item.quantity).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                                  <td className="total-col">{(item.price * item.quantity)?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                                   <td className="remove-col">
                                     <button className="btn-remove" onClick={() => handleDelete(item)}>
                                       <i className="icon-close" />
@@ -393,7 +394,7 @@ function Cart() {
                         <tbody>
                           <tr className="summary-subtotal">
                             <td>Tổng phụ:</td>
-                            <td>{TotalCart.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                            <td>{TotalCart?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                           </tr>
                           {/* End .summary-subtotal */}
                           <tr className="summary-shipping">
@@ -472,7 +473,7 @@ function Cart() {
                           {/* End .summary-shipping-estimate */}
                           <tr className="summary-total">
                             <td>Tổng:</td>
-                            <td>{TotalCart.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                            <td>{TotalCart?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                           </tr>
                           {/* End .summary-total */}
                         </tbody>

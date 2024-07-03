@@ -18,7 +18,7 @@ import CartServices from "../../../services/CartServices.js";
 import { v4 as uuidv4 } from 'uuid';
 
 function ProductDetail() {
-    const numberCart = useSelector((state)=> state.cart.numberCart);
+  const numberCart = useSelector((state) => state.cart.numberCart);
   const [images, setImages] = useState([]);
   const [currentImage, setCurrentImage] = useState([]);
   const sliderRef = useRef(null);
@@ -120,23 +120,32 @@ function ProductDetail() {
       setaddcart(product);
     }
   }, [selectedAttributes, variants, product]);
+  
+  const handleIncrease = () => {
+    setQty(prevQty => prevQty + 1);
+  };
+
+  const handleDecrease = () => {
+    setQty(prevQty => (prevQty > 1 ? prevQty - 1 : 1));
+  };
+
   const handleAddCart = async () => {
     if (variants.length > 0 && !addcart) {
       swal("Cảnh báo", "Vui lòng đưa ra lựa chọn", "warning");
     }
-    else{
-      const data={
-        deviceId:deviceId,
-        variant_id:addcart.product_id ? addcart.id : null,
-        product_id:addcart.product_id || addcart.id,
-        quantity:qty,
+    else {
+      const data = {
+        deviceId: deviceId,
+        variant_id: addcart.product_id ? addcart.id : null,
+        product_id: addcart.product_id || addcart.id,
+        quantity: qty,
       }
       const result = await CartServices.addCart(data);
       dispatch(AddCart({ qty }));
       swal("Thành công", result.message, "success");
     }
   };
-    ///------------------------------------------------------------------------------------
+  ///------------------------------------------------------------------------------------
   return (
     <>
       <main className="main">
@@ -242,7 +251,7 @@ function ProductDetail() {
                     {/* End .product-title */}
                     <div className="ratings-container">
                       <div className="ratings">
-                        <div className="ratings-val" style={{ width: "80%" }} />
+                        <div className="ratings-val" style={{ width: `${product.avg_rating * 20}%` }} />
                         {/* End .ratings-val */}
                       </div>
                       {/* End .ratings */}
@@ -251,7 +260,7 @@ function ProductDetail() {
                         href="#product-review-link"
                         id="review-link"
                       >
-                        {/* ( 2 Reviews ) */}
+                        ( {product.sum_qty_selled ? product.sum_qty_selled : 0} đã bán )
                       </a>
                     </div>
                     {/* End .rating-container */}
@@ -259,14 +268,14 @@ function ProductDetail() {
                       product.price_sale != null ?
                         (
                           <div className="product-price">
-                            <span className="new-price">{product.price_sale}đ</span>
-                            <span className="old-price">Was {product.price}đ</span>
+                            <span className="new-price">{product.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                            <span className="old-price">Was {product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                           </div>
                         )
                         :
                         (
                           <div className="product-price">
-                            <span className="new-price">{product.price}đ</span>
+                            <span className="new-price">{product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                           </div>
                         )
                     }
@@ -361,20 +370,40 @@ function ProductDetail() {
                     {/* End .details-filter-row */}
                     <div className="product-details-action">
                       <div className="row">
-                        <div className="col-md-2">
-                          <label className="col-form-label">Qty:</label>
+                        <div className="">
+                          <label className="col-form-label">Số lượng:</label>
                         </div>
                         <div className="col-md-6">
-                          <div className="input-group">
+                          <div className="input-group input-spinner">
+                            <div className="input-group-prepend">
+                              <button
+                                style={{ minWidth: 26 }}
+                                className="btn btn-decrement btn-spinner"
+                                type="button"
+                                onClick={handleDecrease}
+                              >
+                                <i className="icon-minus" />
+                              </button>
+                            </div>
                             <input
                               type="number"
-                              className="form-control"
-                              min="1"
-                              max="10"
-                              data-decimals="0"
+                              style={{ textAlign: "center" }}
+                              className="form-control "
+                              required=""
+                              placeholder=""
                               value={qty}
-                              onChange={(e)=>setQty(e.target.value)}
+                              onChange={(e) => setQty(e.target.value)}
                             />
+                            <div className="input-group-append">
+                              <button
+                                style={{ minWidth: 26 }}
+                                className="btn btn-increment btn-spinner"
+                                type="button"
+                                onClick={handleIncrease}
+                              >
+                                <i className="icon-plus" />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -386,13 +415,12 @@ function ProductDetail() {
                       {/* End .details-action-wrapper */}
                     </div>
                     {/* End .product-details-action */}
-                    <div className="product-details-footer">
+                    {/* <div className="product-details-footer">
                       <div className="product-cat">
                         <span>Category:</span>
                         <a href="#">Women</a>,<a href="#">Dresses</a>,
                         <a href="#">Yellow</a>
                       </div>
-                      {/* End .product-cat */}
                       <div className="social-icons social-icons-sm">
                         <span className="social-label">Share:</span>
                         <a
@@ -428,12 +456,9 @@ function ProductDetail() {
                           <i className="icon-pinterest" />
                         </a>
                       </div>
-                    </div>
-                    {/* End .product-details-footer */}
+                    </div> */}
                   </div>
-                  {/* End .product-details */}
                 </div>
-                {/* End .col-md-6 */}
               </div>
               {/* End .row */}
             </div>
@@ -463,7 +488,7 @@ function ProductDetail() {
                     aria-controls="product-review-tab"
                     aria-selected="false"
                   >
-                    Reviews
+                    Đánh giá
                   </a>
                 </li>
               </ul>

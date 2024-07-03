@@ -23,7 +23,7 @@ function remove(id)
 }
 function getOrderByUserId(user_id)
 {
-    return httpAxios.get(`order/${user_id}`);
+    return httpAxios.get(`order_userId/${user_id}`);
 }
 function doCheckout(data)
 {
