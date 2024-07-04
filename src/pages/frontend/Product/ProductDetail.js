@@ -132,19 +132,25 @@ function ProductDetail() {
   const handleAddCart = async () => {
     if (variants.length > 0 && !addcart) {
       swal("Cảnh báo", "Vui lòng đưa ra lựa chọn", "warning");
-    }
-    else {
+    }else {
       const data = {
         deviceId: deviceId,
         variant_id: addcart.product_id ? addcart.id : null,
         product_id: addcart.product_id || addcart.id,
         quantity: qty,
       }
+      console.log(data)
+
       const result = await CartServices.addCart(data);
-      dispatch(AddCart({ qty }));
-      swal("Thành công", result.message, "success");
+      if(result.status){
+        dispatch(AddCart({ qty }));
+        swal("Thành công", result.message, "success");  
+      }else{
+        swal("Cảnh báo", result.message, "warning");
+      }
     }
   };
+  console.log(addcart)
   ///------------------------------------------------------------------------------------
   return (
     <>

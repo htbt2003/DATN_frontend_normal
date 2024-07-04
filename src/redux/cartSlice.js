@@ -22,7 +22,7 @@ const cartSlice = createSlice({
     //   },
     AddCart: (state, action) => {
       const { qty } = action.payload;
-      state.numberCart= state.numberCart + qty;
+      state.numberCart += qty;
 
       // const { id, product_id } = action.payload;
       // // Xác định sản phẩm hoặc biến thể dựa trên product_id
@@ -63,7 +63,7 @@ const cartSlice = createSlice({
     },
     DeleteCart(state, action) {
       const { qty } = action.payload;
-      state.numberCart= state.numberCart - qty;
+      state.numberCart -= qty;
         // let quantity_ = state.Carts[action.payload].quantity;
         // state.numberCart= state.numberCart - quantity_
         // state.Carts = state.Carts.filter(item=>{

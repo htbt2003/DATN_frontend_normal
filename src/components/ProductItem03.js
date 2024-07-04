@@ -8,6 +8,12 @@ import swal from 'sweetalert';
 
 function ProductItem03(props) {
   const dispatch = useDispatch();
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
+    }
+    return text;
+};
     return ( 
     <div className="product product-7 text-center">
       <figure className="product-media">
@@ -68,7 +74,7 @@ function ProductItem03(props) {
         </div>
         {/* End .product-cat */}
         <h3 className="product-title">
-          <Link to={"/chi-tiet-san-pham/" + props.product.slug}>{props.product.name}</Link>
+          <Link to={"/chi-tiet-san-pham/" + props.product.slug}>{truncateText(props.product.name, 50)}</Link>
         </h3>
         {/* End .product-title */}
         {

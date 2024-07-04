@@ -138,7 +138,6 @@ function Checkout() {
       order,
       ListCart,
     }
-    // dispatch(ClearCart());
     await OrderServices.doCheckout(orderData)
       .then(function (result) {
         if (result.status == true) {

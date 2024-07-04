@@ -9,6 +9,13 @@ import swal from 'sweetalert';
 function ProductItem02(props) {
   // const product = props.product
   const dispatch = useDispatch()
+
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
+    }
+    return text;
+};
   return (
     <div className="col-6 col-md-4 col-lg-3 col-xl-5col">
       <div className="product product-7 text-center">
@@ -71,7 +78,7 @@ function ProductItem02(props) {
         {/* End .product-media */}
         <div className="product-body">
           <h3 className="product-title">
-            <Link to={"/chi-tiet-san-pham/" + props.product.slug}>{props.product.name}</Link>
+            <Link to={"/chi-tiet-san-pham/" + props.product.slug}>{truncateText(props.product.name, 50)}</Link>
           </h3>
           {/* End .product-title */}
           {
@@ -80,6 +87,7 @@ function ProductItem02(props) {
                 <div className="product-price">
                   <span className="new-price">{props.product.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                   <span className="old-price">- {props.product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                  <span className="new-price">(Còn {props.product.sum_qty_selled} khuyến mãi)</span>
                 </div>
               )
               :

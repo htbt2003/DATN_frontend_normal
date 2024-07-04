@@ -108,7 +108,7 @@ function Cart() {
       navigator("/thanh-toan");
     }
   };
-
+console.log(ListCart)
   if (ListCart.length > 0) {
     return (
       <>
@@ -160,15 +160,15 @@ function Cart() {
                       <tbody>
                         {
                           ListCart.map((item, key) => {
-                            if (item.variant) {
-                              let image = item.image;
-                              let hinhanh = urlImage + "product/" + image;
-                              item.variant.variant_values.forEach(function (item1) {
-                                if (item1.product_attribute_value.image != null) {
-                                  image = item1.product_attribute_value.image;
-                                  hinhanh = urlImage + "pro_attribute/" + image;
-                                }
-                              });
+                              if (item.variant) {
+                                let image = item.image;
+                                let hinhanh = urlImage + "product/" + image;
+                                item.variant.variant_values.forEach(function (item1) {
+                                  if (item1.product_attribute_value.image != null) {
+                                    image = item1.product_attribute_value.image;
+                                    hinhanh = urlImage + "pro_attribute/" + image;
+                                  }
+                                });
                               return (
                                 <tr key={key}>
 
@@ -205,18 +205,18 @@ function Cart() {
                                     {/* End .product */}
                                   </td>
                                   <td className="price-col">
-                                    {item.price_sale ? (
+                                    {item.variant.sale ? (
                                       <>
                                         <div style={{ textDecoration: 'line-through', color: 'red' }}>
-                                          {item.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                          {item.variant.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                         </div>
                                         <div>
-                                          {item.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                          {item.variant.sale.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                         </div>
                                       </>
                                     ) : (
                                       <div>
-                                        {item.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                        {item.variant.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                       </div>
                                     )}
                                   </td>
@@ -299,7 +299,22 @@ function Cart() {
                                     </div>
                                     {/* End .product */}
                                   </td>
-                                  <td className="price-col">{(item.price)?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                                  <td className="price-col">
+                                  {item.price_sale ? (
+                                      <>
+                                        <div style={{ textDecoration: 'line-through', color: 'red' }}>
+                                          {item.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                        </div>
+                                        <div>
+                                          {item.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <div>
+                                        {item.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                      </div>
+                                    )}
+                                  </td>
                                   <td className="quantity-col">
                                     <div className="cart-product-quantity">
                                       <div className="input-group input-spinner">
