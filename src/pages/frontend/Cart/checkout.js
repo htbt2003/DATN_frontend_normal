@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import OrderServices from '../../../services/OrderServices';
 import UserServices from '../../../services/UserServices';
 import swal from "sweetalert";
@@ -8,6 +8,7 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useSelector, useDispatch } from 'react-redux'
 import { ClearCart, DeleteCart } from '../../../redux/cartSlice';
 import CartServices from "../../../services/CartServices";
+import { urlImage } from "../../../config";
 // 55281f5fd4dfce1a24054035
 
 function Checkout() {
@@ -22,7 +23,7 @@ function Checkout() {
   const [payment, setPayment] = useState("");
   const [USDRate, setUSDRate] = useState("");
   const [Cart, setCart] = useState([]);
-
+  const [load, setLoad] = useState(false)
 
   // const [user, setUser] = useState([])
   const fetchAPI = async () => {
@@ -36,7 +37,7 @@ function Checkout() {
           OrderServices.getUSDRate(),
           CartServices.getListSelected(deviceId),
         ]);
-  
+
         setCart(ListSelect.ListCart);
         setUSDRate(USDRate.vnd_to_usd);
 
@@ -53,14 +54,56 @@ function Checkout() {
   let TotalCart = 0;
   let qtyCart = 0;
   Cart.forEach(function (item) {
-    const price = item.price_sale || (item.sale ? item.sale.price_sale : item.price)
+    let price = 0
+    if (item.variant) {
+      price = item.variant.sale?.price_sale || item.variant.price;
+    } else {
+      price = item.price_sale || item.price;
+    }
     TotalCart += item.quantity * price;
     qtyCart += item.quantity
   });
 
-  // console.log((TotalCart * USDRate).toFixed(2))
-  //paypal
-  // const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
+  async function OrderStore() {
+    // event.preventDefault();//không load lại trang
+    setLoad(true);
+    var order = {
+      user_id: user.id,
+      name: name == "" ? user.name : name,
+      email: email == "" ? user.email : email,
+      address: address == "" ? user.address : address,
+      phone: phone == "" ? user.phone : phone,
+      note: note,
+    }
+    var ListCart = [];
+    Cart.forEach((item) => {
+      ListCart = [...ListCart,
+      {
+        id: item.id,
+        product_id: item.product_id,
+        variant_id: item.variant_id,
+        quantity: item.quantity,
+        price: item.variant ? (item.variant.sale?.price_sale || item.variant.price) : (item.price_sale || item.price),
+        cost: item.variant ? item.variant.cost : item.cost,
+      }
+      ]
+    });
+
+    const orderData = {
+      order,
+      ListCart,
+    }
+    await OrderServices.doCheckout(orderData)
+      .then(function (result) {
+        if (result.status == true) {
+          dispatch(DeleteCart({ qty: qtyCart }));
+          swal("Success", result.message, "success");
+          navigator("/", { replace: true })
+        }
+      });
+      setLoad(false);
+  }
+  //----thanh toán paypal---------------------
   const createOrder = (data, actions) => {
     return actions.order.create({
       purchase_units: [
@@ -75,6 +118,7 @@ function Checkout() {
   const onApprove = async (data, actions) => {
     return actions.order.capture().then(async function (details) {
       // orderinfo_data.payment_id = details.id;
+      setLoad(true);
       var order = {
         user_id: user.id,
         name: name == "" ? user.name : name,
@@ -87,66 +131,30 @@ function Checkout() {
       Cart.forEach((item) => {
         ListCart = [...ListCart,
         {
-          id:item.id,
+          id: item.id,
           product_id: item.product_id,
           variant_id: item.variant_id,
           quantity: item.quantity,
-          price: item.price_sale || item.price,
-          cost: item.cost || null,
+          price: item.variant ? (item.variant.sale?.price_sale || item.variant.price) : (item.price_sale || item.price),
+          cost: item.variant ? item.variant.cost : item.cost,
         }
         ]
       });
-
       const orderData = {
         order,
         ListCart,
       }
       await OrderServices.doCheckout(orderData)
         .then(function (result) {
-          dispatch(DeleteCart({qty: qtyCart}));
+          dispatch(DeleteCart({ qty: qtyCart }));
           swal("Thành công", result.message, "success");
           navigator("/", { replace: true });
         });
+        setLoad(false);
+      // OrderStore();
     });
   };
   // End-Paypal Code
-  async function OrderStore(event) {
-    event.preventDefault();//không load lại trang
-    var order = {
-      user_id: user.id,
-      name: name == "" ? user.name : name,
-      email: email == "" ? user.email : email,
-      address: address == "" ? user.address : address,
-      phone: phone == "" ? user.phone : phone,
-      note: note,
-    }
-    var ListCart = [];
-    Cart.forEach((item) => {
-      ListCart = [...ListCart,
-      {
-        id:item.id,
-        product_id: item.product_id,
-        variant_id: item.variant_id,
-        quantity: item.quantity,
-        price: item.price_sale || item.price,
-        cost: item.cost || null,
-      }
-      ]
-    });
-
-    const orderData = {
-      order,
-      ListCart,
-    }
-    await OrderServices.doCheckout(orderData)
-      .then(function (result) {
-        if (result.status == true) {
-          dispatch(DeleteCart({qty: qtyCart}));
-          swal("Success", result.message, "success");
-          navigator("/", { replace: true })
-        }
-      });
-  }
   console.log(Cart)
   return (
     <>
@@ -247,13 +255,44 @@ function Checkout() {
                         <tbody>
                           {
                             Cart.map((item, key) => {
+                              let name = item.name;
+                              let hinhanh = urlImage + "product/" + item.image;
+                              let price = item.price;
+                              let price_sale = item.price_sale || null;
+
+                              if (item.variant) {
+                                name = item.variant.name;
+                                price = item.variant.price;
+                                price_sale = item.variant.sale?.price_sale || null;
+
+                                item.variant.variant_values.forEach(function (item1) {
+                                  if (item1.product_attribute_value.image != null) {
+                                    hinhanh = urlImage + "pro_attribute/" + item1.product_attribute_value.image;
+                                  }
+                                });
+                              }
                               return (
                                 <tr key={key}>
                                   <td>
                                     {" "}
-                                    {item.name} <strong> × {item.quantity}</strong>
+                                    {name} <strong> × {item.quantity}</strong>
                                   </td>
-                                  <td> {(item.price * item.quantity).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                                  <td>
+                                    {price_sale ? (
+                                      <>
+                                        <div style={{ textDecoration: 'line-through', color: 'red' }}>
+                                          {price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                        </div>
+                                        <div>
+                                          {price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <div>
+                                        {price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                      </div>
+                                    )}
+                                  </td>
                                 </tr>
                               )
                             })
@@ -331,7 +370,7 @@ function Checkout() {
                           <button
                             type="submit"
                             className="btn-outline-primary-2 btn-order btn-block"
-                            // onClick={}
+                          // onClick={}
                           >
                             <span className="btn-text">Thanh toán</span>
                           </button>

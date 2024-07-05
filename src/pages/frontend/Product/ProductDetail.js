@@ -6,7 +6,7 @@ import ProductItem03 from "../../../components/ProductItem03";
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react'
 import ProductReview from "./ProductReview.js";
-import { AddCart } from '../../../redux/cartSlice';
+import { AddCart, ClearCart } from '../../../redux/cartSlice';
 import swal from "sweetalert";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -130,6 +130,7 @@ function ProductDetail() {
   };
 
   const handleAddCart = async () => {
+    dispatch(ClearCart());
     if (variants.length > 0 && !addcart) {
       swal("Cảnh báo", "Vui lòng đưa ra lựa chọn", "warning");
     }else {
