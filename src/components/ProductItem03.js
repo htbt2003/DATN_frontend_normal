@@ -82,7 +82,8 @@ function ProductItem03(props) {
             (
               <div className="product-price">
                 <span className="new-price">{props.product.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
-                <span className="old-price">- {props.product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                <span className="old-price">{props.product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                <span className="new-price">(Còn {props.product.sum_qty_sale-props.product.sum_qty_sale_selled} khuyến mãi)</span>
               </div>
             )
             :
