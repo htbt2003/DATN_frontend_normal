@@ -26,6 +26,7 @@ function Cart() {
     }
     fetchAPI()
   }, [reload])
+  console.log(ListCart)
   //Tính tổng giỏ hàng
   let TotalCart = 0;
   ListCart && ListCart.forEach(function (item) {
@@ -196,7 +197,7 @@ function Cart() {
                             if (item.variant) {
                               name = item.variant.name;
                               price = item.variant.price;
-                              price_sale = item.variant.sale?.price_sale || null;
+                              // price_sale = item.variant.sale?.price_sale || null;
 
                               item.variant.variant_values.forEach(function (item1) {
                                 if (item1.product_attribute_value.image != null) {

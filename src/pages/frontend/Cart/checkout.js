@@ -54,18 +54,13 @@ function Checkout() {
   let TotalCart = 0;
   let qtyCart = 0;
   Cart.forEach(function (item) {
-    let price = 0
-    if (item.variant) {
-      price = item.variant.sale?.price_sale || item.variant.price;
-    } else {
-      price = item.price_sale || item.price;
-    }
+    let price = item.price_sale || item.price;
     TotalCart += item.quantity * price;
-    qtyCart += item.quantity
+    qtyCart += item.quantity;
   });
 
-  async function OrderStore() {
-    // event.preventDefault();//không load lại trang
+  async function OrderStore(event) {
+    event.preventDefault();//không load lại trang
     setLoad(true);
     var order = {
       user_id: user.id,
@@ -83,7 +78,7 @@ function Checkout() {
         product_id: item.product_id,
         variant_id: item.variant_id,
         quantity: item.quantity,
-        price: item.variant ? (item.variant.sale?.price_sale || item.variant.price) : (item.price_sale || item.price),
+        price: item.price_sale || item.price,
         cost: item.variant ? item.variant.cost : item.cost,
       }
       ]
@@ -94,13 +89,19 @@ function Checkout() {
       ListCart,
     }
     await OrderServices.doCheckout(orderData)
-      .then(function (result) {
-        if (result.status == true) {
+        .then(function (result) {
           dispatch(DeleteCart({ qty: qtyCart }));
-          swal("Success", result.message, "success");
-          navigator("/", { replace: true })
-        }
-      });
+          swal("Thành công", result.message, "success");
+          navigator("/", { replace: true });
+        });
+    // await OrderServices.doCheckout(orderData)
+    //   .then(function (result) {
+    //     if (result.status == true) {
+    //       dispatch(DeleteCart({ qty: qtyCart }));
+    //       swal("Success", result.message, "success");
+    //       navigator("/", { replace: true })
+    //     }
+    //   });
       setLoad(false);
   }
   //----thanh toán paypal---------------------
@@ -135,7 +136,7 @@ function Checkout() {
           product_id: item.product_id,
           variant_id: item.variant_id,
           quantity: item.quantity,
-          price: item.variant ? (item.variant.sale?.price_sale || item.variant.price) : (item.price_sale || item.price),
+          price: item.price_sale || item.price,
           cost: item.variant ? item.variant.cost : item.cost,
         }
         ]
@@ -151,7 +152,6 @@ function Checkout() {
           navigator("/", { replace: true });
         });
         setLoad(false);
-      // OrderStore();
     });
   };
   // End-Paypal Code
@@ -206,7 +206,7 @@ function Checkout() {
               </div>
               {/* End .checkout-discount */}
               {/* onSubmit={OrderStore} method="post" */}
-              <form onSubmit={OrderStore} method="post">
+              <form>
                 <div className="row">
                   <div className="col-lg-9">
                     <h2 className="checkout-title">Billing Details</h2>
@@ -263,7 +263,7 @@ function Checkout() {
                               if (item.variant) {
                                 name = item.variant.name;
                                 price = item.variant.price;
-                                price_sale = item.variant.sale?.price_sale || null;
+                                // price_sale = item.variant.sale?.price_sale || null;
 
                                 item.variant.variant_values.forEach(function (item1) {
                                   if (item1.product_attribute_value.image != null) {
@@ -321,7 +321,7 @@ function Checkout() {
                             <input
                               type="radio"
                               id="free-shipping"
-                              name="shipping"
+                              // name="shipping"
                               className="custom-control-input"
                               value="0"
                               checked={payment === "0"}
@@ -338,7 +338,7 @@ function Checkout() {
                             <input
                               type="radio"
                               id="free-shipping1"
-                              name="shipping"
+                              // name="shipping"
                               className="custom-control-input"
                               value="1"
                               checked={payment === "1"}
@@ -368,9 +368,8 @@ function Checkout() {
 
                         ) : (
                           <button
-                            type="submit"
                             className="btn-outline-primary-2 btn-order btn-block"
-                          // onClick={}
+                            onClick={OrderStore}
                           >
                             <span className="btn-text">Thanh toán</span>
                           </button>
