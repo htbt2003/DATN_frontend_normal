@@ -122,7 +122,7 @@ const ProductReview = ({ reviews, setReload, product_id }) => {
                   />
                 </div>
             <div className="btn-wrap">
-              <a href="#" className="btn btn-primary btn-round" onClick={handleSubmitReview}>
+              <a className="btn btn-primary btn-round" onClick={handleSubmitReview}>
                 Thêm
               </a>
             </div>

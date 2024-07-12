@@ -17,15 +17,21 @@ function ProductBrand() {
   const [sort, setSort] = useState();
   const [prices, setPrices] = useState([0, 1000000]);
   const [reload, setReload] = useState();
+  const [minPrice, setMinPrice] = useState();
+  const [maxPrice, setMaxPrice] = useState();
+  const [maxProductPrice, setMaxProductPrice] = useState(0);
   document.title = title
-  var condition = {
-    prices: {
-      form: prices[0],
-      to: prices[1],
-    },
-    sort: sort,
-  }
   const fetchAPI = async () => {
+    var condition = {
+      // brands: selectedBrands,
+      // categories: selectedCategories,
+      prices: {
+        from: minPrice,
+        to: maxPrice,
+      },
+      sort: sort,
+    }
+
     try {
       const result = await BrandServices.getBrandBySlug(slug);
       const catid = result.brand.id;
@@ -33,6 +39,7 @@ function ProductBrand() {
       const resultpro = await ProductServices.getProductByBrandId(page, catid, condition)
       setProducts(resultpro.products.data)
       setTotal(resultpro.total);
+      setMaxProductPrice(resultpro.priceMax)
     }
     catch (error) {
       console.log('wait...')
@@ -40,7 +47,7 @@ function ProductBrand() {
   }
   useEffect(function () {
     fetchAPI()
-  }, [slug, prices])
+  }, [slug, reload, minPrice, maxPrice])
 
       //------------pagination-------------
   const numberPage = Math.ceil(total / 8);
@@ -55,13 +62,13 @@ function ProductBrand() {
     const priceSlider = sliderRef.current;
   
     noUiSlider.create(priceSlider, {
-      start: [0, 1000000],
+      start: [0, maxProductPrice],
       connect: true,
       step: 50,
       margin: 200,
       range: {
         min: 0,
-        max: 1000000
+        max: maxProductPrice
       },
       tooltips: true,
       format: wNumb({
@@ -75,7 +82,8 @@ function ProductBrand() {
     };
   
     const setFinalPrices = (values) => {
-      setPrices(values.map(value => parseInt(value.replace('$', ''), 10)));
+      setMinPrice(parseInt(values[0].replace('$', ''), 10));
+      setMaxPrice(parseInt(values[1].replace('$', ''), 10));
     };
   
     priceSlider.noUiSlider.on('update', updatePriceRange);
@@ -88,7 +96,7 @@ function ProductBrand() {
         priceSlider.noUiSlider.destroy();
       }
     };
-  }, []);
+  }, [maxProductPrice]);
     //----------sort--------
   const handleSortChange = (event) => {
     setSort(event.target.value);
@@ -103,7 +111,7 @@ function ProductBrand() {
     return (
 <>
   <main className="main">
-    <div
+    {/* <div
       className="page-header text-center"
       style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
     >
@@ -112,8 +120,7 @@ function ProductBrand() {
           {title}<span>Thương hiệu</span>
         </h1>
       </div>
-      {/* End .container */}
-    </div>
+    </div> */}
     {/* End .page-header */}
     <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2">
       <div className="container">

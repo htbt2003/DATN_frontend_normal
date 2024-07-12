@@ -21,7 +21,7 @@ const PageDetail = () => {
     return (
 <>
   <main className="main">
-    <div
+    {/* <div
       className="page-header text-center"
       style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
     >
@@ -30,8 +30,7 @@ const PageDetail = () => {
           Trang đơn<span>Giới thiệu</span>
         </h1>
       </div>
-      {/* End .container */}
-    </div>
+    </div> */}
     {/* End .page-header */}
     <nav aria-label="breadcrumb" className="breadcrumb-nav">
       <div className="container">

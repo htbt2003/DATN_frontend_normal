@@ -5,7 +5,7 @@ const Account = () => {
     return (
 <>
   <main className="main">
-    <div
+    {/* <div
       className="page-header text-center"
       style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
     >
@@ -14,8 +14,7 @@ const Account = () => {
           My Account<span>Shop</span>
         </h1>
       </div>
-      {/* End .container */}
-    </div>
+    </div> */}
     {/* End .page-header */}
     <nav aria-label="breadcrumb" className="breadcrumb-nav mb-3">
       <div className="container">

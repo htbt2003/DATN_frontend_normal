@@ -15,46 +15,47 @@ function Product() {
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [sort, setSort] = useState(null);
-  const [prices, setPrices] = useState([0, 1000000]);
+  const [prices, setPrices] = useState([0, 0]);
   const [reload, setReload] = useState();
+  const [minPrice, setMinPrice] = useState();
+  const [maxPrice, setMaxPrice] = useState();
+  const [maxProductPrice, setMaxProductPrice] = useState(0);
   document.title = "Danh sách sản phẩm"
-  var condition = {
-    brands: selectedBrands,
-    categories: selectedCategories,
-    prices: {
-      from: prices[0],
-      to: prices[1],
-    },
-    sort: sort,
-  }
 
   const handleSortChange = (event) => {
     setSort(event.target.value);
     setReload(Date.now)
   };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Selected sorting option:', sort);
-  };
-  useEffect(function () {
-        window.scroll(0, 0);
-  }, []);
+  // useEffect(function () {
+  //       window.scroll(0, 0);
+  // }, []);
 
   const fetchAPI = async () => {
+    var condition = {
+      brands: selectedBrands,
+      categories: selectedCategories,
+      prices: {
+        from: minPrice,
+        to: maxPrice,
+      },
+      sort: sort,
+    }
+  
     try {
       const result = await ProductServices.getProductAll(page, condition);
+      setMaxProductPrice(result.priceMax)
       setProducts(result.products.data);
       setTotal(result.total);
       setBrands(result.brands);
       setCategories(result.categories);
+      setPrices([0, result.priceMax]);
     } catch (error) {
       console.log(error)
     }
   }
   useEffect(function () {
     fetchAPI();
-  }, [reload, prices]);
+  }, [reload, minPrice, maxPrice]);
 
   const numberPage = Math.ceil(total / 8);
   const handlePageChange = (event) => {
@@ -68,13 +69,13 @@ function Product() {
     const priceSlider = sliderRef.current;
   
     noUiSlider.create(priceSlider, {
-      start: [0, 1000000],
+      start: [0, maxProductPrice],
       connect: true,
       step: 50,
       margin: 200,
       range: {
         min: 0,
-        max: 1000000
+        max: maxProductPrice
       },
       tooltips: true,
       format: wNumb({
@@ -88,12 +89,12 @@ function Product() {
     };
   
     const setFinalPrices = (values) => {
-      setPrices(values.map(value => parseInt(value.replace('$', ''), 10)));
+      setMinPrice(parseInt(values[0].replace('$', ''), 10));
+      setMaxPrice(parseInt(values[1].replace('$', ''), 10));
     };
-  
+
     priceSlider.noUiSlider.on('update', updatePriceRange);
     priceSlider.noUiSlider.on('change', setFinalPrices);
-  
     return () => {
       if (priceSlider.noUiSlider) {
         priceSlider.noUiSlider.off('update', updatePriceRange);
@@ -101,7 +102,7 @@ function Product() {
         priceSlider.noUiSlider.destroy();
       }
     };
-  }, []);
+  }, [maxProductPrice]);
     const handleCheckboxCategory = (categoryId) => {
     const isSelected = selectedCategories.includes(categoryId);
     if (isSelected) {
@@ -125,7 +126,7 @@ function Product() {
   return (
     <>
   <main className="main">
-    <div
+    {/* <div
       className="page-header text-center"
       style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
     >
@@ -134,13 +135,12 @@ function Product() {
           Danh sách sản phẩm<span>Sản phẩm</span>
         </h1>
       </div>
-    </div>
-    {/* End .page-header */}
+    </div> */}
     <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2">
       <div className="container">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="index.html">Home</a>
+            <a href="index.html">Trang chủ</a>
           </li>
           <li className="breadcrumb-item">
             <a href="#">Sản phẩm</a>
@@ -243,10 +243,10 @@ function Product() {
           <aside className="col-lg-3 order-lg-first">
             <div className="sidebar sidebar-shop">
               <div className="widget widget-clean">
-                <label>Filters:</label>
-                <a href="#" className="sidebar-filter-clear">
+                <label>Lọc:</label>
+                {/* <a href="#" className="sidebar-filter-clear">
                   Clean All
-                </a>
+                </a> */}
               </div>
               {/* Category */}
               <div className="widget widget-collapsible">
@@ -258,7 +258,7 @@ function Product() {
                     aria-expanded="true"
                     aria-controls="widget-1"
                   >
-                    Category
+                    Danh mục
                   </a>
                 </h3>
                 {/* End .widget-title */}
@@ -308,7 +308,7 @@ function Product() {
                     aria-expanded="true"
                     aria-controls="widget-4"
                   >
-                    Brand
+                    Thương hiệu
                   </a>
                 </h3>
                 {/* End .widget-title */}
@@ -355,7 +355,7 @@ function Product() {
                     aria-expanded="true"
                     aria-controls="widget-5"
                   >
-                    Price
+                    Giá
                   </a>
                 </h3>
                 {/* End .widget-title */}

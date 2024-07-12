@@ -21,8 +21,8 @@ const UpdateAddress = () => {
       setName(tmp.name);
       setPhone(tmp.phone);
       setAddress(tmp.address);
-      setStatus(tmp.status);
-      setDefault(tmp.status);
+      setStatus(tmp.status.toString());
+      // setDefault(tmp.status);
     })();
   }, []);
   function AddressUpdate(event) {
@@ -32,7 +32,7 @@ const UpdateAddress = () => {
     addr.append("name", name)
     addr.append("phone", phone)
     addr.append("address", address)
-    addr.append("status", status)
+    addr.append("status", 1)
     AddressServices.update(addr, id)
       .then(function (result) {
         swal("Success", result.message, "success");
@@ -42,7 +42,7 @@ const UpdateAddress = () => {
   console.log(status)
   return (
     <main className="main">
-      <div
+      {/* <div
         className="page-header text-center"
         style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
       >
@@ -51,8 +51,7 @@ const UpdateAddress = () => {
             My Account<span>Shop</span>
           </h1>
         </div>
-        {/* End .container */}
-      </div>
+      </div> */}
       {/* End .page-header */}
       <nav aria-label="breadcrumb" className="breadcrumb-nav mb-3">
         <div className="container">

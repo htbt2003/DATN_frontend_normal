@@ -2,6 +2,11 @@ import httpAxios from "../httpAxios";
 
 
 const AddressServices = {
+    getDefaultAddressByUserId:(id) =>
+        {
+            return httpAxios.get("default_address_userId/" + id);
+        },
+    
     getAddressByUserId:(id) =>
     {
         return httpAxios.get("address_userId/" + id);

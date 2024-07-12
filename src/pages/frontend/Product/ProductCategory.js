@@ -18,15 +18,21 @@ function ProductCategory() {
   const [prices, setPrices] = useState([0, 1000000]);
   const [pricesFiler, setPriceFiler] = useState(null);
   const [reload, setReload] = useState();
+  const [minPrice, setMinPrice] = useState();
+  const [maxPrice, setMaxPrice] = useState();
+  const [maxProductPrice, setMaxProductPrice] = useState(0);
+
   document.title = title
-    var condition = {
-      prices: {
-        form: prices[0],
-      to: prices[1],
-      },
-      sort: sort,
-    }
     const fetchAPI = async () => {
+      var condition = {
+        // brands: selectedBrands,
+        // categories: selectedCategories,
+        prices: {
+          from: minPrice,
+          to: maxPrice,
+        },
+        sort: sort,
+      }  
       try {
         const result = await CategoryServices.getCategoryBySlug(slug);
           const catid = result.category.id;
@@ -34,6 +40,7 @@ function ProductCategory() {
         const resultpro = await ProductServices.getProductByCategoryId(page, catid, condition)
           setProducts(resultpro.products.data)
           setTotal(resultpro.total);
+          setMaxProductPrice(resultpro.priceMax)
       }
       catch (error) {
         console.log('wait...')
@@ -41,7 +48,7 @@ function ProductCategory() {
     }
     useEffect(function () {
       fetchAPI()
-    }, [slug, reload, prices])
+    }, [slug, reload, minPrice, maxPrice])
       
     // console.log(products)
     // console.log(pricesFiler)
@@ -69,13 +76,13 @@ function ProductCategory() {
     const priceSlider = sliderRef.current;
   
     noUiSlider.create(priceSlider, {
-      start: [0, 1000000],
+      start: [0, maxProductPrice],
       connect: true,
       step: 50,
       margin: 200,
       range: {
         min: 0,
-        max: 1000000
+        max: maxProductPrice
       },
       tooltips: true,
       format: wNumb({
@@ -89,7 +96,8 @@ function ProductCategory() {
     };
   
     const setFinalPrices = (values) => {
-      setPrices(values.map(value => parseInt(value.replace('$', ''), 10)));
+      setMinPrice(parseInt(values[0].replace('$', ''), 10));
+      setMaxPrice(parseInt(values[1].replace('$', ''), 10));
     };
   
     priceSlider.noUiSlider.on('update', updatePriceRange);
@@ -102,7 +110,7 @@ function ProductCategory() {
         priceSlider.noUiSlider.destroy();
       }
     };
-  }, []);
+  }, [maxProductPrice]);
     const handleChangePrice = () => {
     setPriceFiler(prices);
     setReload(Date.now)
@@ -111,7 +119,7 @@ function ProductCategory() {
     return (
 <>
   <main className="main">
-    <div
+    {/* <div
       className="page-header text-center"
       style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
     >
@@ -120,8 +128,7 @@ function ProductCategory() {
           {title}<span>Danh mục</span>
         </h1>
       </div>
-      {/* End .container */}
-    </div>
+    </div> */}
     {/* End .page-header */}
     <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2">
       <div className="container">

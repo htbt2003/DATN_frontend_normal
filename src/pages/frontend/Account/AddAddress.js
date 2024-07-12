@@ -7,12 +7,13 @@ import Sidebar from "./Sidebar";
 
 const AddAddress = () => {
   const navigator = useNavigate();
-  const user_id = useSelector((state) => state.auth.user.id)
+  const user_id = useSelector((state) => state.auth.user?.id)
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [status, setStatus] = useState(1);
   const [count, setCount] = useState();
+  document.title='Thêm địa chỉ mới'
   //lấy số lượng địa chỉ của user--------------------------
   const fetchAPI = async () => {
     try {
@@ -45,7 +46,7 @@ const AddAddress = () => {
   console.log(status)
   return (
     <main className="main">
-      <div
+      {/* <div
         className="page-header text-center"
         style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
       >
@@ -54,20 +55,19 @@ const AddAddress = () => {
             My Account<span>Shop</span>
           </h1>
         </div>
-        {/* End .container */}
-      </div>
+      </div> */}
       {/* End .page-header */}
       <nav aria-label="breadcrumb" className="breadcrumb-nav mb-3">
         <div className="container">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
+              <a href="index.html">Trang chủ</a>
             </li>
             <li className="breadcrumb-item">
-              <a href="#">Shop</a>
+              <a href="#">Cửa hàng</a>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              My Account
+              Thêm địa chỉ
             </li>
           </ol>
         </div>

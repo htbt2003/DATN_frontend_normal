@@ -36,13 +36,13 @@ function Contact() {
       <div className="container">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="index.html">Home</a>
+            <a href="index.html">Trang chủ</a>
           </li>
           <li className="breadcrumb-item">
-            <a href="#">Pages</a>
+            <a href="#">Của hàng</a>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
-            Contact us
+            Liên hệ
           </li>
         </ol>
       </div>
@@ -50,7 +50,7 @@ function Contact() {
     </nav>
     {/* End .breadcrumb-nav */}
     <div className="container">
-      <div
+      {/* <div
         className="page-header page-header-big text-center"
         style={{
           backgroundImage: 'url("assets/images/contact-header-bg.jpg")'
@@ -59,30 +59,26 @@ function Contact() {
         <h1 className="page-title text-white">
           Contact us<span className="text-white">keep in touch with us</span>
         </h1>
-      </div>
-      {/* End .page-header */}
+      </div> */}
     </div>
     {/* End .container */}
     <div className="page-content pb-0">
       <div className="container">
         <div className="row">
           <div className="col-lg-6 mb-2 mb-lg-0">
-            <h2 className="title mb-1">Contact Information</h2>
+            <h2 className="title mb-1">Thông tin liên hệ</h2>
             {/* End .title mb-2 */}
             <p className="mb-3">
-              Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod
-              dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu,
-              dapibus eu, fermentum et, dapibus sed, urna.
+            Trang phục bạn khoác lên người chính là cách để bạn giới thiệu với mọi người về cá tính sống của mình. Do đó, việc lựa chọn dòng sản phẩm chất lượng chính là cách để bạn thể hiện giá trị bản thân mình.
             </p>
             <div className="row">
               <div className="col-sm-7">
                 <div className="contact-info">
-                  <h3>The Office</h3>
+                  <h3>Văn phòng</h3>
                   <ul className="contact-list">
                     <li>
                       <i className="icon-map-marker" />
-                      70 Washington Square South New York, NY 10012, United
-                      States
+                      936 Kha Vạn Cân, Trường Thọ, Thủ Đức, Hồ Chí Minh
                     </li>
                     <li>
                       <i className="icon-phone" />
@@ -90,7 +86,7 @@ function Contact() {
                     </li>
                     <li>
                       <i className="icon-envelope" />
-                      <a href="mailto:#">info@Molla.com</a>
+                      <a href="mailto:#">junotran@gmail.com</a>
                     </li>
                   </ul>
                   {/* End .contact-list */}
@@ -100,17 +96,17 @@ function Contact() {
               {/* End .col-sm-7 */}
               <div className="col-sm-5">
                 <div className="contact-info">
-                  <h3>The Office</h3>
+                  <h3>Thời gian</h3>
                   <ul className="contact-list">
                     <li>
                       <i className="icon-clock-o" />
-                      <span className="text-dark">Monday-Saturday</span> <br />
-                      11am-7pm ET
+                      <span className="text-dark">Thứ 2-Thứ 7</span> <br />
+                      8H – 22H
                     </li>
                     <li>
                       <i className="icon-calendar" />
-                      <span className="text-dark">Sunday</span> <br />
-                      11am-6pm ET
+                      <span className="text-dark">Chủ nhật</span> <br />
+                      8H – 12H
                     </li>
                   </ul>
                   {/* End .contact-list */}

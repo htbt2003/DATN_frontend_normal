@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 
 const Infor = () => {
   const navigator = useNavigate();
-  const user_id = useSelector((state) => state.auth.user.id)
+  const user_id = useSelector((state) => state.auth.user?.id)
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -58,8 +58,8 @@ const Infor = () => {
     fetchAPI()
   }, [])
   return (
-    <main className="main">
-      <div
+    <main className="main" style={{ backgroundColor: "#f9f9f9" }}>
+      {/* <div
         className="page-header text-center"
         style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
       >
@@ -68,8 +68,7 @@ const Infor = () => {
             My Account<span>Shop</span>
           </h1>
         </div>
-        {/* End .container */}
-      </div>
+      </div> */}
       {/* End .page-header */}
       <nav aria-label="breadcrumb" className="breadcrumb-nav mb-3">
         <div className="container">
@@ -94,7 +93,7 @@ const Infor = () => {
             <div className="row">
               <Sidebar />
               {/* End .col-lg-3 */}
-              <div className="col-md-8 col-lg-10 bg-light">
+              <div className="col-md-8 col-lg-10 infor" style={{ backgroundColor: "#ffff", color:"#0000" }}>
                 <section className="content-body p-5">
                   <form method="post" onSubmit={UserEdit}>
                     {/* <p className="text-center">Already have an account? <a href="#">Log in instead!</a></p> */}

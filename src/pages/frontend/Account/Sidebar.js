@@ -12,9 +12,9 @@ const Sidebar = () => {
   const logoutSubmit = async (e) => {
     try {
       const result = await UserServices.logout();
+      navigator("/", { replace: true })
       dispatch(clearAuth());
       swal("Success", result.message, "success");
-      navigator("/", { replace: true })
     }
     catch (error) {
       console.log(error)

@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 
 const Address = () => {
   const navigator = useNavigate();
-  const user_id = useSelector((state) => state.auth.user.id)
+  const user_id = useSelector((state) => state.auth.user?.id)
   const [addresses, setAddresses] = useState([]);
   const [reLoad, setReLoad] = useState();
   const fetchAPI = async () => {
@@ -22,6 +22,7 @@ const Address = () => {
   useEffect(function () {
     fetchAPI()
   }, [reLoad])
+  console.log(addresses)
   const handleDelete = (id) => {
     swal({
       title: "Bạn muốn xóa địa chỉ này?",
@@ -49,8 +50,8 @@ const Address = () => {
     });
   };
     return (
-    <main className="main">
-      <div
+    <main className="main" style={{ backgroundColor: "#f9f9f9" }}>
+      {/* <div
         className="page-header text-center"
         style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
       >
@@ -59,8 +60,7 @@ const Address = () => {
             My Account<span>Shop</span>
           </h1>
         </div>
-        {/* End .container */}
-      </div>
+      </div> */}
       {/* End .page-header */}
       <nav aria-label="breadcrumb" className="breadcrumb-nav mb-3">
         <div className="container">
@@ -100,7 +100,7 @@ const Address = () => {
                     </thead>
                     <tbody>
                       {
-                        addresses&&addresses.map((address, index)=>{
+                        addresses && addresses.map((address, index)=>{
                           return(
                             <tr key={index}>
                             <td className="stock-col pl-3">
@@ -145,12 +145,11 @@ const Address = () => {
 
                 </div>
 
-                <div className="row">
+                {/* <div className="row">
                   <div className="col-lg-6">
                     <div className="card card-dashboard">
                       <div className="card-body">
                         <h3 className="card-title">Billing Address</h3>
-                        {/* End .card-title */}
                         <p>
                           User Name
                           <br />
@@ -169,16 +168,12 @@ const Address = () => {
                           </a>
                         </p>
                       </div>
-                      {/* End .card-body */}
                     </div>
-                    {/* End .card-dashboard */}
                   </div>
-                  {/* End .col-lg-6 */}
                   <div className="col-lg-6">
                     <div className="card card-dashboard">
                       <div className="card-body">
                         <h3 className="card-title">Shipping Address</h3>
-                        {/* End .card-title */}
                         <p>
                           You have not set up this type of address yet.
                           <br />
@@ -187,12 +182,9 @@ const Address = () => {
                           </a>
                         </p>
                       </div>
-                      {/* End .card-body */}
                     </div>
-                    {/* End .card-dashboard */}
                   </div>
-                  {/* End .col-lg-6 */}
-                </div>
+                </div> */}
 
               </div>
 

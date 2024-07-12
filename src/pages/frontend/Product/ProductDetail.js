@@ -120,7 +120,7 @@ function ProductDetail() {
       setaddcart(product);
     }
   }, [selectedAttributes, variants, product]);
-  
+
   const handleIncrease = () => {
     setQty(prevQty => prevQty + 1);
   };
@@ -133,7 +133,7 @@ function ProductDetail() {
     dispatch(ClearCart());
     if (variants.length > 0 && !addcart) {
       swal("Cảnh báo", "Vui lòng đưa ra lựa chọn", "warning");
-    }else {
+    } else {
       const data = {
         deviceId: deviceId,
         variant_id: addcart.product_id ? addcart.id : null,
@@ -143,10 +143,10 @@ function ProductDetail() {
       console.log(data)
 
       const result = await CartServices.addCart(data);
-      if(result.status){
+      if (result.status) {
         dispatch(AddCart({ qty }));
-        swal("Thành công", result.message, "success");  
-      }else{
+        swal("Thành công", result.message, "success");
+      } else {
         swal("Cảnh báo", result.message, "warning");
       }
     }
@@ -160,16 +160,16 @@ function ProductDetail() {
           <div className="container d-flex align-items-center">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="index.html">Home</a>
+                <a href="index.html">Trang chủ</a>
               </li>
               <li className="breadcrumb-item">
-                <a href="#">Products</a>
+                <a href="#">Sản phẩm</a>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Default
+                Chi tiết sản phẩm
               </li>
             </ol>
-            <nav className="product-pager ml-auto" aria-label="Product">
+            {/* <nav className="product-pager ml-auto" aria-label="Product">
               <a
                 className="product-pager-link product-pager-prev"
                 href="#"
@@ -188,8 +188,7 @@ function ProductDetail() {
                 <span>Next</span>
                 <i className="icon-angle-right" />
               </a>
-            </nav>
-            {/* End .pager-nav */}
+            </nav> */}
           </div>
           {/* End .container */}
         </nav>
@@ -216,33 +215,53 @@ function ProductDetail() {
                         </a> */}
                       </figure>
                       {/* End .product-main-image */}
-                      <div
-                        id="product-zoom-gallery" className="product-image-gallery gallery-controls"
-                      >
-                        <button onClick={handlePrev} className="gallery-control-prev btn-outline-primary bg-white">
-                          <FaChevronUp />
-                        </button>
-                        <div className="" >
-                          <Slider {...settings} className="" ref={sliderRef}>
+                      {
+                        images.length > 4 ? (
+                          <div
+                            id="product-zoom-gallery" className="product-image-gallery gallery-controls"
+                          >
+                            <button onClick={handlePrev} className="gallery-control-prev btn-outline-primary bg-white">
+                              <FaChevronUp />
+                            </button>
+                            <div className="" >
+                              <Slider {...settings} className="" ref={sliderRef}>
+                                {images.map((image, index) => (
+                                  <div key={index} className="">
+                                    <a
+                                      className=" active"
+                                    >
+                                      <img
+                                        src={urlImage + "pro_image/" + image.image}
+                                        alt="product side"
+                                      />
+                                    </a>
+                                  </div>
+                                ))}
+                              </Slider>
+
+                            </div>
+                            <button onClick={handleNext} style={{ background: "#cbcdce" }} className="gallery-control-next  btn-outline-primary bg-white">
+                              <FaChevronDown />
+                            </button>
+                          </div>
+
+                        ) : (
+                          <div id="product-zoom-gallery" className="product-image-gallery">
                             {images.map((image, index) => (
                               <div key={index} className="">
                                 <a
-                                  className=" active"
+                                  className="product-gallery-item active"
+                                  // data-image="assets/images/products/single/1.jpg"
+                                  // data-zoom-image="assets/images/products/single/1-big.jpg"
                                 >
-                                  <img
-                                    src={urlImage + "pro_image/" + image.image}
-                                    alt="product side"
-                                  />
+                                  <img src={urlImage + "pro_image/" + image.image} alt="product side" onClick={()=>setCurrentImage(image.image)}/>
                                 </a>
+
                               </div>
                             ))}
-                          </Slider>
-
-                        </div>
-                        <button onClick={handleNext} style={{ background: "#cbcdce" }} className="gallery-control-next  btn-outline-primary bg-white">
-                          <FaChevronDown />
-                        </button>
-                      </div>
+                          </div>
+                        )
+                      }
                       {/* End .product-image-gallery */}
                     </div>
                     {/* End .row */}

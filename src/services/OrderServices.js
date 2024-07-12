@@ -42,9 +42,9 @@ const OrderService = {
     {
         return httpAxios.get("order/change_status/" + id);
     },
-    delete:(id) =>
+    cancel_order:(id) =>
     {
-        return httpAxios.get("order/delete/" + id);
+        return httpAxios.get("cancel_order/" + id);
     },
     restore:(id) =>
     {

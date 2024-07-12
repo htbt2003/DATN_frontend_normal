@@ -21,7 +21,7 @@ const App = () => {
           const timeToken = decodedToken.exp * 1000;
           const currentTime = Date.now();
 
-          if (timeToken && currentTime > timeToken - 30000) {
+          if (timeToken && currentTime > timeToken - 60000) {
             await UserServices.logout();
             dispatch(clearAuth());
             swal("Cảnh báo", "Phiên của bạn đã hết hạn. Xin vui lòng đăng nhập lại.", "warning");

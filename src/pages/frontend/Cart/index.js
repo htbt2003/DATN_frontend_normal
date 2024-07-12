@@ -142,7 +142,7 @@ function Cart() {
     return (
       <>
         <main className="main">
-          <div
+          {/* <div
             className="page-header text-center"
             style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
           >
@@ -151,8 +151,7 @@ function Cart() {
                 Giỏ hàng<span>Cửa hàng</span>
               </h1>
             </div>
-            {/* End .container */}
-          </div>
+          </div> */}
           {/* End .page-header */}
           <nav aria-label="breadcrumb" className="breadcrumb-nav">
             <div className="container">
@@ -317,7 +316,7 @@ function Cart() {
                       </tbody>
                     </table>
                     {/* End .table table-wishlist */}
-                    <div className="cart-bottom">
+                    {/* <div className="cart-bottom">
                       <div className="cart-discount">
                         <form action="#">
                           <div className="input-group">
@@ -335,17 +334,10 @@ function Cart() {
                                 <i className="icon-long-arrow-right" />
                               </button>
                             </div>
-                            {/* .End .input-group-append */}
                           </div>
-                          {/* End .input-group */}
                         </form>
                       </div>
-                      {/* End .cart-discount */}
-                      {/* <a href="#" className="btn btn-outline-dark-2">
-                  <span>Cập nhật giỏ hàng</span>
-                  <i className="icon-refresh" />
-                </a> */}
-                    </div>
+                    </div> */}
                     {/* End .cart-bottom */}
                   </div>
                   {/* End .col-lg-9 */}
@@ -382,7 +374,7 @@ function Cart() {
                               </div>
                               {/* End .custom-control */}
                             </td>
-                            <td>$0.00</td>
+                            <td>0.00</td>
                           </tr>
                           {/* End .summary-shipping-row */}
                           <tr className="summary-shipping-row">
@@ -403,7 +395,7 @@ function Cart() {
                               </div>
                               {/* End .custom-control */}
                             </td>
-                            <td>$10.00</td>
+                            <td>0.00</td>
                           </tr>
                           {/* End .summary-shipping-row */}
                           <tr className="summary-shipping-row">
@@ -424,7 +416,7 @@ function Cart() {
                               </div>
                               {/* End .custom-control */}
                             </td>
-                            <td>$20.00</td>
+                            <td>0.00</td>
                           </tr>
                           {/* End .summary-shipping-row */}
                           <tr className="summary-shipping-estimate">
