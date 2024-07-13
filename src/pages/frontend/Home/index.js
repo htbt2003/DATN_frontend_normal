@@ -9,18 +9,20 @@ import ProductSale from "./ProductSale";
 import ProductBestSeller from "./ProductBestSeller";
 import BrandHome from "./BrandHome";
 import DataProvider, { DataContext } from "./DataProvider";
+import { urlImage } from "../../../config";
 
 function HomeData() {
-  const { categories, bestSeller, proNew, proSale, sliders } = useContext(DataContext);
+  const { categories, bestSeller, proNew, proSale, sliders, posts } = useContext(DataContext);
     document.title = "Shop thời trang"
-    // useEffect(() => {
-      // if (categories) {
-      //   console.log(categories);
-      // }
-    // }, [categories]);
+    const truncateText = (text, maxLength) => {
+      if (text.length > maxLength) {
+          return text.substring(0, maxLength) + '...';
+      }
+      return text;
+  };
     return (
 <>
-  <main className="main">
+  <main className="main" style={{ backgroundColor: "#f9f9f9" }}>
     <Slider data={sliders}/>
     <div className="mb-3 mb-lg-5" />
     {/* End .mb-3 mb-lg-5 */}
@@ -226,75 +228,34 @@ function HomeData() {
         {/* End .title-lg text-center */}
         <div className="products">
             <div className="row justify-content-center">
-            {/* <article className="entry entry-display p-2">
-            <figure className="entry-media">
-              <a href="single.html">
-                <img
-                  src="assets/images/demos/demo-2/blog/post-1.jpg"
-                  alt="image desc"
-                />
-              </a>
-            </figure>
-            <div className="entry-body text-center">
-              <div className="entry-meta">
-                <a href="#">Nov 22, 2018</a>, 0 Comments
-              </div>
-              <h3 className="entry-title">
-                <a href="single.html">Sed adipiscing ornare.</a>
-              </h3>
-              <div className="entry-content">
-                <a href="single.html" className="read-more">
-                  Continue Reading
-                </a>
-              </div>
-            </div>
-          </article>
-          <article className="entry entry-display p-2">
-            <figure className="entry-media">
-              <a href="single.html">
-                <img
-                  src="assets/images/demos/demo-2/blog/post-2.jpg"
-                  alt="image desc"
-                />
-              </a>
-            </figure>
-            <div className="entry-body text-center">
-              <div className="entry-meta">
-                <a href="#">Dec 12, 2018</a>, 0 Comments
-              </div>
-              <h3 className="entry-title">
-                <a href="single.html">Fusce lacinia arcuet nulla.</a>
-              </h3>
-              <div className="entry-content">
-                <a href="single.html" className="read-more">
-                  Continue Reading
-                </a>
-              </div>
-            </div>
-          </article>
-          <article className="entry entry-display p-2">
-            <figure className="entry-media">
-              <a href="single.html">
-                <img
-                  src="assets/images/demos/demo-2/blog/post-3.jpg"
-                  alt="image desc"
-                />
-              </a>
-            </figure>
-            <div className="entry-body text-center">
-              <div className="entry-meta">
-                <a href="#">Dec 19, 2018</a>, 2 Comments
-              </div>
-              <h3 className="entry-title">
-                <a href="single.html">Quisque volutpat mattis eros.</a>
-              </h3>
-              <div className="entry-content">
-                <a href="single.html" className="read-more">
-                  Continue Reading
-                </a>
-              </div>
-            </div>
-          </article> */}
+              { posts && posts.map((post, index)=>(
+                            <article key={index} className="entry entry-display p-3">
+                              <div className="address">
+                              <figure className="entry-media">
+                              <a href="single.html">
+                                <img
+                                   src={urlImage + "post/" + post.image}
+                                  alt="image desc"
+                                 style={{height:"300px", width:"260px"}}
+                                />
+                              </a>
+                            </figure>
+                            <div className="entry-body text-center">
+                              <div className="entry-meta">
+                                <a href="#">{post.created_at}</a>
+                              </div>
+                              <h3 className="entry-title">
+                                <a href="single.html">{truncateText(post.title, 20)}{}</a>
+                              </h3>
+                              <div className="entry-content">
+                                <a href="single.html" className="read-more">
+                                {truncateText(post.metadesc, 20)}{}
+                                </a>
+                              </div>
+                            </div>
+                              </div>
+                          </article>                
+              ))}
 
             </div>
             {/* End .row */}

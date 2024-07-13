@@ -155,8 +155,8 @@ function ProductDetail() {
   ///------------------------------------------------------------------------------------
   return (
     <>
-      <main className="main">
-        <nav aria-label="breadcrumb" className="breadcrumb-nav border-0 mb-0">
+      <main className="main" style={{ backgroundColor: "#f9f9f9" }}>
+        <nav aria-label="breadcrumb" className="breadcrumb-nav border-top mb-0">
           <div className="container d-flex align-items-center">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
@@ -194,7 +194,7 @@ function ProductDetail() {
         </nav>
         {/* End .breadcrumb-nav */}
         <div className="page-content">
-          <div className="container">
+          <div className="container bg-white p-5">
             <div className="product-details-top">
               <div className="row">
                 <div className="col-md-6">
@@ -248,13 +248,11 @@ function ProductDetail() {
                         ) : (
                           <div id="product-zoom-gallery" className="product-image-gallery">
                             {images.map((image, index) => (
-                              <div key={index} className="">
+                              <div key={index} className="" onClick={()=>setCurrentImage(image.image)}>
                                 <a
                                   className="product-gallery-item active"
-                                  // data-image="assets/images/products/single/1.jpg"
-                                  // data-zoom-image="assets/images/products/single/1-big.jpg"
                                 >
-                                  <img src={urlImage + "pro_image/" + image.image} alt="product side" onClick={()=>setCurrentImage(image.image)}/>
+                                  <img src={urlImage + "pro_image/" + image.image} alt="product side" />
                                 </a>
 
                               </div>
@@ -295,7 +293,7 @@ function ProductDetail() {
                         (
                           <div className="product-price">
                             <span className="new-price">{product.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
-                            <span className="old-price">Was {product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                            <span className="old-price"> {product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                           </div>
                         )
                         :
@@ -317,7 +315,7 @@ function ProductDetail() {
                         <label>{attribute.attribute.name}</label>
                         <div className="product-nav product-nav-thumbs">
                           {attribute.product_attribute_values.map((item, index) => (
-                            <div key={index} className="gallery-thumbnail">
+                            <div key={index} className="gallery-thumbnail bg-white">
                               {
                                 !(item.image) ? (
                                   <Link onClick={() => handleAttributeChange(attribute.id, item.id, item.image)}
@@ -441,14 +439,14 @@ function ProductDetail() {
                       {/* End .details-action-wrapper */}
                     </div>
                     {/* End .product-details-action */}
-                    {/* <div className="product-details-footer">
+                    <div className="product-details-footer">
                       <div className="product-cat">
-                        <span>Category:</span>
-                        <a href="#">Women</a>,<a href="#">Dresses</a>,
-                        <a href="#">Yellow</a>
+                        <span>Danh mục:</span>
+                        <a href="#">Phụ nữ</a>,<a href="#">Đầm</a>,
+                        {/* <a href="#"></a> */}
                       </div>
                       <div className="social-icons social-icons-sm">
-                        <span className="social-label">Share:</span>
+                        <span className="social-label">Chia sẻ:</span>
                         <a
                           href="#"
                           className="social-icon"
@@ -482,7 +480,7 @@ function ProductDetail() {
                           <i className="icon-pinterest" />
                         </a>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </div>

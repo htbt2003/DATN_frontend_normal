@@ -18,7 +18,7 @@ function ProductItem02(props) {
 };
   return (
     <div className="col-6 col-md-4 col-lg-3 col-xl-5col">
-      <div className="product product-7 text-center">
+      <div className="product product-7 text-center address">
         <figure className="product-media">
           {
              props.product.price_sale != null ?(
@@ -42,11 +42,13 @@ function ProductItem02(props) {
               src={urlImage + "product/" + props.product.image}
               alt="Product image"
               className="product-image"
+              style={{height:"300px"}}
             />
             <img
               src={urlImage + "product/" + props.product.image}
               alt="Product image"
               className="product-image-hover"
+              style={{height:"300px"}}
             />
           </Link>
           {/* <div className="product-action-vertical">
@@ -87,7 +89,11 @@ function ProductItem02(props) {
                 <div className="product-price">
                   <span className="new-price">{props.product.price_sale?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                   <span className="old-price"> {props.product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
-                  <span className="new-price">(Còn {props.product.sum_qty_sale-props.product.sum_qty_sale_selled} KM)</span>
+                  {
+                    props.product.sum_qty_sale ? (
+                      <span className="new-price">(Còn {props.product.sum_qty_sale-props.product.sum_qty_sale_selled} KM)</span>
+                    ):null
+                  }
                 </div>
               )
               :

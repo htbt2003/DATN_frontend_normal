@@ -17,7 +17,6 @@ function ProductSale(prop) {
     // useEffect(()=>{
     //   fetchAPI();
     // },[])
-    console.log(products)
         return ( 
           <div
           className="tab-pane p-0 fade"

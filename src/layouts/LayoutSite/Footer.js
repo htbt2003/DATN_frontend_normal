@@ -3,119 +3,119 @@ import PostServices from '../../services/PostServices';
 import { Link } from 'react-router-dom';
 import { urlImage } from '../../config';
 
-function Footer() {
-    // const [posts, setPosts] = useState([]);
-    // const [postNew, setPostNew] = useState([]);
-    // useEffect(function () {
-    //     (async function () {
-    //         try {
-    //             const result = await PostServices.getByType(8, "post")
-    //             setPosts(result.data.posts)
-    //         }
-    //         catch (error) {
-    //             console.log(error)
-    //         }
-    //     })();
-    // }, [])
-    // useEffect(function () {
-    //     (async function () {
-    //         try {
-    //             const result = await PostServices.getPostNew()
-    //             setPostNew(result.data.post)
-    //         }
-    //         catch (error) {
-    //             console.log(error)
-    //         }
-    //     })();
-    // }, [])
-    return (
-        <footer className="footer footer-2">
-        <div className="icon-boxes-container">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-6 col-lg-3">
-                <div className="icon-box icon-box-side">
-                  <span className="icon-box-icon text-dark">
-                    <i className="icon-rocket" />
-                  </span>
-                  <div className="icon-box-content">
-                    <h3 className="icon-box-title">Miễn phí vận chuyển</h3>
-                    {/* End .icon-box-title */}
-                    <p>Đơn hàng 150.000Đ trở lên</p>
-                  </div>
-                  {/* End .icon-box-content */}
+function Footer({ config, menus }) {
+  // const [posts, setPosts] = useState([]);
+  // const [postNew, setPostNew] = useState([]);
+  // useEffect(function () {
+  //     (async function () {
+  //         try {
+  //             const result = await PostServices.getByType(8, "post")
+  //             setPosts(result.data.posts)
+  //         }
+  //         catch (error) {
+  //             console.log(error)
+  //         }
+  //     })();
+  // }, [])
+  // useEffect(function () {
+  //     (async function () {
+  //         try {
+  //             const result = await PostServices.getPostNew()
+  //             setPostNew(result.data.post)
+  //         }
+  //         catch (error) {
+  //             console.log(error)
+  //         }
+  //     })();
+  // }, [])
+  return (
+    <footer className="footer footer-2">
+      <div className="icon-boxes-container">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-6 col-lg-3">
+              <div className="icon-box icon-box-side">
+                <span className="icon-box-icon text-dark">
+                  <i className="icon-rocket" />
+                </span>
+                <div className="icon-box-content">
+                  <h3 className="icon-box-title">Miễn phí vận chuyển</h3>
+                  {/* End .icon-box-title */}
+                  <p>Đơn hàng 150.000Đ trở lên</p>
                 </div>
-                {/* End .icon-box */}
+                {/* End .icon-box-content */}
               </div>
-              {/* End .col-sm-6 col-lg-3 */}
-              <div className="col-sm-6 col-lg-3">
-                <div className="icon-box icon-box-side">
-                  <span className="icon-box-icon text-dark">
-                    <i className="icon-rotate-left" />
-                  </span>
-                  <div className="icon-box-content">
-                    <h3 className="icon-box-title">Trả lại miễn phí</h3>
-                    {/* End .icon-box-title */}
-                    <p>Trong vòng 7 ngày</p>
-                  </div>
-                  {/* End .icon-box-content */}
-                </div>
-                {/* End .icon-box */}
-              </div>
-              {/* End .col-sm-6 col-lg-3 */}
-              <div className="col-sm-6 col-lg-3">
-                <div className="icon-box icon-box-side">
-                  <span className="icon-box-icon text-dark">
-                    <i className="icon-info-circle" />
-                  </span>
-                  <div className="icon-box-content">
-                    <h3 className="icon-box-title">Được giảm giá 20% cho 1 mặt hàng</h3>
-                    {/* End .icon-box-title */}
-                    <p>Khi bạn đăng ký</p>
-                  </div>
-                  {/* End .icon-box-content */}
-                </div>
-                {/* End .icon-box */}
-              </div>
-              {/* End .col-sm-6 col-lg-3 */}
-              <div className="col-sm-6 col-lg-3">
-                <div className="icon-box icon-box-side">
-                  <span className="icon-box-icon text-dark">
-                    <i className="icon-life-ring" />
-                  </span>
-                  <div className="icon-box-content">
-                    <h3 className="icon-box-title">Chúng tôi hỗ trợ</h3>
-                    {/* End .icon-box-title */}
-                    <p>Dịch vụ tuyệt vời 24/7</p>
-                  </div>
-                  {/* End .icon-box-content */}
-                </div>
-                {/* End .icon-box */}
-              </div>
-              {/* End .col-sm-6 col-lg-3 */}
+              {/* End .icon-box */}
             </div>
-            {/* End .row */}
+            {/* End .col-sm-6 col-lg-3 */}
+            <div className="col-sm-6 col-lg-3">
+              <div className="icon-box icon-box-side">
+                <span className="icon-box-icon text-dark">
+                  <i className="icon-rotate-left" />
+                </span>
+                <div className="icon-box-content">
+                  <h3 className="icon-box-title">Trả lại miễn phí</h3>
+                  {/* End .icon-box-title */}
+                  <p>Trong vòng 7 ngày</p>
+                </div>
+                {/* End .icon-box-content */}
+              </div>
+              {/* End .icon-box */}
+            </div>
+            {/* End .col-sm-6 col-lg-3 */}
+            <div className="col-sm-6 col-lg-3">
+              <div className="icon-box icon-box-side">
+                <span className="icon-box-icon text-dark">
+                  <i className="icon-info-circle" />
+                </span>
+                <div className="icon-box-content">
+                  <h3 className="icon-box-title">Được giảm giá 20% cho 1 mặt hàng</h3>
+                  {/* End .icon-box-title */}
+                  <p>Khi bạn đăng ký</p>
+                </div>
+                {/* End .icon-box-content */}
+              </div>
+              {/* End .icon-box */}
+            </div>
+            {/* End .col-sm-6 col-lg-3 */}
+            <div className="col-sm-6 col-lg-3">
+              <div className="icon-box icon-box-side">
+                <span className="icon-box-icon text-dark">
+                  <i className="icon-life-ring" />
+                </span>
+                <div className="icon-box-content">
+                  <h3 className="icon-box-title">Chúng tôi hỗ trợ</h3>
+                  {/* End .icon-box-title */}
+                  <p>Dịch vụ tuyệt vời 24/7</p>
+                </div>
+                {/* End .icon-box-content */}
+              </div>
+              {/* End .icon-box */}
+            </div>
+            {/* End .col-sm-6 col-lg-3 */}
           </div>
-          {/* End .container */}
+          {/* End .row */}
         </div>
-        {/* End .icon-boxes-container */}
-        <div
-          className="footer-newsletter bg-image"
-          style={{ backgroundImage: "url(assets/images/backgrounds/bg-2.jpg)" }}
-        >
-          <div className="container">
-            <div className="heading text-center">
-              {/* <h3 className="title">Get The Latest Deals</h3> */}
-              {/* End .title */}
-              {/* <p className="title-desc">
+        {/* End .container */}
+      </div>
+      {/* End .icon-boxes-container */}
+      <div
+        className="footer-newsletter bg-image"
+        style={{ backgroundImage: "url(assets/images/backgrounds/bg-2.jpg)" }}
+      >
+        <div className="container">
+          <div className="heading text-center">
+            {/* <h3 className="title">Get The Latest Deals</h3> */}
+            {/* End .title */}
+            {/* <p className="title-desc">
                 and receive <span>$20 coupon</span> for first shopping
               </p> */}
-              {/* End .title-desc */}
-            </div>
-            {/* End .heading */}
-            <div className="row">
-              <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-                {/* <form action="#">
+            {/* End .title-desc */}
+          </div>
+          {/* End .heading */}
+          <div className="row">
+            <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+              {/* <form action="#">
                   <div className="input-group">
                     <input
                       type="email"
@@ -137,39 +137,39 @@ function Footer() {
                     </div>
                   </div>
                 </form> */}
-              </div>
-              {/* End .col-sm-10 offset-sm-1 col-lg-6 offset-lg-3 */}
             </div>
-            {/* End .row */}
+            {/* End .col-sm-10 offset-sm-1 col-lg-6 offset-lg-3 */}
           </div>
-          {/* End .container */}
+          {/* End .row */}
         </div>
-        {/* End .footer-newsletter bg-image */}
-        <div className="footer-middle">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-12 col-lg-6">
-                <div className="widget widget-about">
-                  <img
-                    src="assets/images/demos/demo-2/logo.png"
-                    className="footer-logo"
-                    alt="Footer Logo"
-                    width={105}
-                    height={25}
-                  />
-                  <p>
-                  Trang phục bạn khoác lên người chính là cách để bạn giới thiệu với mọi người về cá tính sống của mình. Do đó, việc lựa chọn dòng sản phẩm chất lượng chính là cách để bạn thể hiện giá trị bản thân mình.
-                  </p>
-                  <div className="widget-about-info">
-                    <div className="row">
-                      <div className="col-sm-6 col-md-4">
-                        <span className="widget-about-title">
-                          Có câu hỏi? Gọi cho chúng tôi 24/7
-                        </span>
-                        <a href="tel:123456789">+0123 456 789</a>
-                      </div>
-                      {/* End .col-sm-6 */}
-                      {/* <div className="col-sm-6 col-md-8">
+        {/* End .container */}
+      </div>
+      {/* End .footer-newsletter bg-image */}
+      <div className="footer-middle">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-12 col-lg-6">
+              <div className="widget widget-about">
+                <img
+                  src={urlImage + "config/" + config?.logo}
+                  className="footer-logo"
+                  alt="Footer Logo"
+                  width={105}
+                  height={25}
+                />
+                <div
+                  dangerouslySetInnerHTML={{ __html: config.metadesc }}
+                />
+                <div className="widget-about-info">
+                  <div className="row">
+                    <div className="col-sm-6 col-md-4">
+                      <span className="widget-about-title">
+                        Có câu hỏi? Gọi cho chúng tôi 24/7
+                      </span>
+                      <a href="tel:123456789">+{config.phone}</a>
+                    </div>
+                    {/* End .col-sm-6 */}
+                    {/* <div className="col-sm-6 col-md-8">
                         <span className="widget-about-title">Phương thức thanh toán</span>
                         <figure className="footer-payments">
                           <img
@@ -180,29 +180,55 @@ function Footer() {
                           />
                         </figure>
                       </div> */}
-                      {/* End .col-sm-6 */}
-                    </div>
-                    {/* End .row */}
+                    {/* End .col-sm-6 */}
                   </div>
-                  {/* End .widget-about-info */}
+                  {/* End .row */}
                 </div>
-                {/* End .widget about-widget */}
+                {/* End .widget-about-info */}
               </div>
-              {/* End .col-sm-12 col-lg-3 */}
-              {/* End .col-sm-64 col-lg-3 */}
+              {/* End .widget about-widget */}
             </div>
-            {/* End .row */}
+            {/* End .col-sm-12 col-lg-3 */}
+            <div className="col-sm-4 col-lg-2">
+              <div className="widget">
+                <h4 className="widget-title">Thông tin</h4>
+                {/* End .widget-title */}
+                <ul className="widget-list">
+                  <li>
+                    <a href="about.html">Hỗ trợ khách hàng</a>
+                  </li>
+                  <li>
+                    <a href="#">Giới Thiệu Về HoYang</a>
+                  </li>
+                  <li>
+                    <a href="#">FAQ</a>
+                  </li>
+                  <li>
+                    <a href="contact.html">Liên hệ</a>
+                  </li>
+                  <li>
+                    <a href="login.html">Bảo Mật Thông Tin</a>
+                  </li>
+                </ul>
+                {/* End .widget-list */}
+              </div>
+              {/* End .widget */}
+            </div>
+
+            {/* End .col-sm-64 col-lg-3 */}
           </div>
-          {/* End .container */}
+          {/* End .row */}
         </div>
-        {/* End .footer-middle */}
-        <div className="footer-bottom">
-          <div className="container">
-            <p className="footer-copyright">
+        {/* End .container */}
+      </div>
+      {/* End .footer-middle */}
+      <div className="footer-bottom">
+        <div className="container">
+          <p className="footer-copyright">
             JunoTran được thành lập theo quyết định số 41Q8018660 do Sở KH&ĐT TPHCM cấp phép
-            </p>
-            {/* End .footer-copyright */}
-            {/* <ul className="footer-menu">
+          </p>
+          {/* End .footer-copyright */}
+          {/* <ul className="footer-menu">
               <li>
                 <a href="#">Terms Of Use</a>
               </li>
@@ -210,8 +236,8 @@ function Footer() {
                 <a href="#">Privacy Policy</a>
               </li>
             </ul> */}
-            {/* End .footer-menu */}
-            {/* <div className="social-icons social-icons-color">
+          {/* End .footer-menu */}
+          {/* <div className="social-icons social-icons-color">
               <span className="social-label">Social Media</span>
               <a
                 href="#"
@@ -254,14 +280,14 @@ function Footer() {
                 <i className="icon-pinterest" />
               </a>
             </div> */}
-            {/* End .soial-icons */}
-          </div>
-          {/* End .container */}
+          {/* End .soial-icons */}
         </div>
-        {/* End .footer-bottom */}
-      </footer>
-  
-    );
+        {/* End .container */}
+      </div>
+      {/* End .footer-bottom */}
+    </footer>
+
+  );
 }
 
 export default Footer;

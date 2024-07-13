@@ -10,7 +10,7 @@ import { AiOutlineLogin } from "react-icons/ai";
 import { clearAuth } from "../../redux/authSlice";
 import  {useSelector, useDispatch} from 'react-redux'
 
-function Header() {
+function Header({config, categories}) {
   const dispatch = useDispatch();
   const [key, setKey] = useState("");
   const navigator = useNavigate();
@@ -45,7 +45,7 @@ function Header() {
             <li>
               <a href="tel:#">
                 <i className="icon-phone" />
-                Liên hệ: +0123 456 789
+                Liên hệ: +{config.phone}
               </a>
             </li>
             {/* <li>
@@ -91,7 +91,8 @@ function Header() {
         </button>
         <a href="index.html" className="logo">
           <img
-            src="assets/images/demos/demo-2/logo.png"
+            // src="assets/images/demos/demo-2/logo.png"
+            src={urlImage + "config/" + config?.logo}
             alt="Molla Logo"
             width={105}
             height={25}
@@ -306,39 +307,13 @@ function Header() {
           <div className="dropdown-menu">
             <nav className="side-nav">
               <ul className="menu-vertical sf-arrows">
-                <li className="item-lead">
-                  <a href="#">Daily offers</a>
-                </li>
-                <li className="item-lead">
-                  <a href="#">Gift Ideas</a>
-                </li>
-                <li>
-                  <a href="#">Beds</a>
-                </li>
-                <li>
-                  <a href="#">Lighting</a>
-                </li>
-                <li>
-                  <a href="#">Sofas &amp; Sleeper sofas</a>
-                </li>
-                <li>
-                  <a href="#">Storage</a>
-                </li>
-                <li>
-                  <a href="#">Armchairs &amp; Chaises</a>
-                </li>
-                <li>
-                  <a href="#">Decoration </a>
-                </li>
-                <li>
-                  <a href="#">Kitchen Cabinets</a>
-                </li>
-                <li>
-                  <a href="#">Coffee &amp; Tables</a>
-                </li>
-                <li>
-                  <a href="#">Outdoor Furniture </a>
-                </li>
+                {
+                  categories && categories.map((category, index)=>(
+                    <li key={index} className="item-lead">
+                    <Link to={"danh-muc-san-pham/" + category.slug}>{category.name}</Link>
+                  </li>  
+                  ))
+                }
               </ul>
               {/* End .menu-vertical */}
             </nav>
@@ -349,7 +324,7 @@ function Header() {
         {/* End .category-dropdown */}
       </div>
       {/* End .header-left */}
-      <Menu/>
+      <Menu />
       {/* End .header-center */}
     </div>
     {/* End .container */}

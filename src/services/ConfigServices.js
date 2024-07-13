@@ -8,7 +8,7 @@ const ConfigServices = {
     },
     show:() =>
     {
-        return httpAxios.post("config/show");
+        return httpAxios.get("config/show");
     },
 
 }

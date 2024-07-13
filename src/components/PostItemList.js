@@ -19,6 +19,14 @@ function PostItemList(props) {
                 <img
                   src={urlImage + "post/" + props.post.image}
                   alt="image desc"
+                  style={{
+                    height: "230px",        // Chiều cao của hình ảnh là 200px
+                    width: "100%",          // Độ rộng là 100% của phần tử chứa nó
+                    objectFit: "cover",     // Chế độ bố cục để giữ nguyên tỷ lệ khung và cắt bớt phần thừa
+                    objectPosition: "center center",  // Đặt vị trí cắt từ trung tâm của hình ảnh
+                    borderRadius: "8px",    // Bo góc hình ảnh
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"  // Đổ bóng để tạo sâu và nổi bật
+                  }}
                 />
               </Link>
             </figure>

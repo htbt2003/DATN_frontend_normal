@@ -110,7 +110,7 @@ function ProductBrand() {
 
     return (
 <>
-  <main className="main">
+  <main className="main" style={{ backgroundColor: "#f9f9f9" }}>
     {/* <div
       className="page-header text-center"
       style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
@@ -122,7 +122,7 @@ function ProductBrand() {
       </div>
     </div> */}
     {/* End .page-header */}
-    <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2">
+    <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2 border">
       <div className="container">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
@@ -146,18 +146,18 @@ function ProductBrand() {
             <div className="toolbox">
               <div className="toolbox-left">
                 <div className="toolbox-info">
-                  Showing <span>9 of 56</span> Products
+                Hiển thị <span>9 đến 56</span> sản phẩm
                 </div>
                 {/* End .toolbox-info */}
               </div>
               {/* End .toolbox-left */}
               <div className="toolbox-right">
                 <div className="toolbox-sort">
-                  <label htmlFor="sortby">Sort by:</label>
+                  <label htmlFor="sortby">Sắp xếp:</label>
                   <div className="select-custom">
                     <select name="sortby" id="sortby" className="form-control">
                       <option value="popularity" selected="selected">
-                        Most Popular
+                        Phô biến nhất
                       </option>
                       <option value="rating">Most Rated</option>
                       <option value="date">Date</option>
@@ -277,10 +277,10 @@ function ProductBrand() {
           <aside className="col-lg-3 order-lg-first">
             <div className="sidebar sidebar-shop">
               <div className="widget widget-clean">
-                <label>Filters:</label>
-                <a href="#" className="sidebar-filter-clear">
+                <label>Lọc:</label>
+                {/* <a href="#" className="sidebar-filter-clear">
                   Clean All
-                </a>
+                </a> */}
               </div>
               {/*Category */}
               <div className="widget widget-collapsible">

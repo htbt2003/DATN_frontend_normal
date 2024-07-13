@@ -1,7 +1,7 @@
 import Header from './Header';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../assets/css/bootstrap.min.css';
 import '../../assets/css/plugins/owl-carousel/owl.carousel.css';
 import '../../assets/css/plugins/magnific-popup/magnific-popup.css';
@@ -10,21 +10,44 @@ import '../../assets/css/style.css';
 import '../../assets/css/skins/skin-demo-2.css';
 import '../../assets/css/demos/demo-2.css';
 import '../../assets/css/plugins/nouislider/nouislider.css';
+import ConfigServices from '../../services/ConfigServices';
+// import MenuServices from '../../services/MenuServices';
+import CategoryService from '../../services/CategoryServices';
 
 
 function LayoutSite() {
+  const [config, setconfig] = useState([]);
+  const [menus, setmenu] = useState([]);
+  const [categories, setcategories] = useState([]);
+
   useEffect(function () {
     window.scroll(0, 0);
   }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const [configResult, catResult] = await Promise.all([
+                ConfigServices.show(),
+                CategoryService.getCategoryByParentId(0),
+              ]);
+              setconfig(configResult.config);
+              setcategories(catResult.categories);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } 
+        
+    };
 
+    fetchData();
+}, []);
     return (
 <>
   <div className="page-wrapper">
-    <Header/>
+    <Header config={config} categories={categories}/>
 
     <Outlet/>
 
-    <Footer/>
+    <Footer config={config}/>
     
   </div>
   {/* End .page-wrapper */}

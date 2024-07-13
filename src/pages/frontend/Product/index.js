@@ -125,7 +125,7 @@ function Product() {
 
   return (
     <>
-  <main className="main">
+  <main className="main" style={{ backgroundColor: "#f9f9f9" }}>
     {/* <div
       className="page-header text-center"
       style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
@@ -136,7 +136,7 @@ function Product() {
         </h1>
       </div>
     </div> */}
-    <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2">
+    <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2 border border-5">
       <div className="container">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
@@ -271,7 +271,7 @@ function Product() {
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
-                              className="custom-control-input"
+                              className="custom-control-input bg-white"
                               id={"category"+category.id}
                               onChange={() => handleCheckboxCategory(category.id)}
                               checked={selectedCategories.includes(category.id)}
@@ -321,7 +321,7 @@ function Product() {
                             <div className="custom-control custom-checkbox">
                               <input
                                 type="checkbox"
-                                className="custom-control-input"
+                                className="custom-control-input  bg-white"
                                 onChange={() => handleCheckboxBrand(brand.id)}
                                   checked={selectedBrands.includes(brand.id)}
                                   id={"brand"+brand.id}
