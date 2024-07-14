@@ -3,6 +3,7 @@ import PostServices from '../../../services/PostServices';
 import PostItemList from '../../../components/PostItemList.js';
 import TopicList from '../../../layouts/LayoutSite/TopicList';
 import ReactPaginate from 'react-paginate';
+import { urlImage } from '../../../config.js';
 
 function Post() {
     const [page, setPage] = useState(1);
@@ -46,14 +47,14 @@ function Post() {
       <div className="container">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="index.html">Home</a>
+            <a href="index.html">Trang chủ</a>
           </li>
           <li className="breadcrumb-item">
-            <a href="#">Blog</a>
+            <a href="#">Bài viết</a>
           </li>
-          <li className="breadcrumb-item active" aria-current="page">
+          {/* <li className="breadcrumb-item active" aria-current="page">
             Listing
-          </li>
+          </li> */}
         </ol>
       </div>
       {/* End .container */}
@@ -132,9 +133,8 @@ function Post() {
           {/* End .col-lg-9 */}
           <aside className="col-lg-3">
             <div className="sidebar">
-              <div className="widget widget-search">
+              {/* <div className="widget widget-search">
                 <h3 className="widget-title">Search</h3>
-                {/* End .widget-title */}
                 <form action="#">
                   <label htmlFor="ws" className="sr-only">
                     Search in blog
@@ -152,152 +152,67 @@ function Post() {
                     <span className="sr-only">Search</span>
                   </button>
                 </form>
-              </div>
-              {/* End .widget */}
-              <div className="widget widget-cats">
-                <h3 className="widget-title">Categories</h3>
-                {/* End .widget-title */}
+              </div> */}
+              <div className="widget widget-cats p-3 bg-light border rounded shadow-sm">
+                <strong><h3 className="widget-title">Danh mục</h3></strong>
                 <ul>
                   <li>
                     <a href="#">
-                      Lifestyle<span>3</span>
+                    Cách sống<span>3</span>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Shopping<span>3</span>
+                    Mua sắm<span>3</span>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Fashion<span>1</span>
+                      Thời trang<span>1</span>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Travel<span>3</span>
+                      Du lịch<span>3</span>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Hobbies<span>2</span>
+                      Sở thích<span>2</span>
                     </a>
                   </li>
                 </ul>
               </div>
               {/* End .widget */}
-              <div className="widget">
-                <h3 className="widget-title">Popular Posts</h3>
+              <div className="widget shadow-sm border rounded p-3">
+                <h3 className="widget-title">Bài viết phổ biến</h3>
                 {/* End .widget-title */}
                 <ul className="posts-list">
+                {posts.map(function(post, index){
+                return (
                   <li>
-                    <figure>
-                      <a href="#">
-                        <img
-                          src="assets/images/blog/sidebar/post-1.jpg"
-                          alt="post"
-                        />
-                      </a>
-                    </figure>
-                    <div>
-                      <span>Nov 22, 2018</span>
-                      <h4>
-                        <a href="#">Aliquam tincidunt mauris eurisus.</a>
-                      </h4>
-                    </div>
-                  </li>
-                  <li>
-                    <figure>
-                      <a href="#">
-                        <img
-                          src="assets/images/blog/sidebar/post-2.jpg"
-                          alt="post"
-                        />
-                      </a>
-                    </figure>
-                    <div>
-                      <span>Nov 19, 2018</span>
-                      <h4>
-                        <a href="#">Cras ornare tristique elit.</a>
-                      </h4>
-                    </div>
-                  </li>
-                  <li>
-                    <figure>
-                      <a href="#">
-                        <img
-                          src="assets/images/blog/sidebar/post-3.jpg"
-                          alt="post"
-                        />
-                      </a>
-                    </figure>
-                    <div>
-                      <span>Nov 12, 2018</span>
-                      <h4>
-                        <a href="#">Vivamus vestibulum ntulla nec ante.</a>
-                      </h4>
-                    </div>
-                  </li>
-                  <li>
-                    <figure>
-                      <a href="#">
-                        <img
-                          src="assets/images/blog/sidebar/post-4.jpg"
-                          alt="post"
-                        />
-                      </a>
-                    </figure>
-                    <div>
-                      <span>Nov 25, 2018</span>
-                      <h4>
-                        <a href="#">Donec quis dui at dolor tempor interdum.</a>
-                      </h4>
-                    </div>
-                  </li>
+                  <figure>
+                    <a href="#">
+                      <img
+                        src={urlImage + 'post/'+ post.image}
+                        alt="post"
+                        style={{height:"80px", width:'70px'}}
+                      />
+                    </a>
+                  </figure>
+                  <div>
+                    <span>22/11/2023</span>
+                    <h4>
+                      <a href="#">{post.title}</a>
+                    </h4>
+                  </div>
+                </li>
+                )
+            })} 
                 </ul>
                 {/* End .posts-list */}
               </div>
               {/* End .widget */}
-              <div className="widget widget-banner-sidebar">
-                <div className="banner-sidebar-title">ad box 280 x 280</div>
-                {/* End .ad-title */}
-                <div className="banner-sidebar banner-overlay">
-                  <a href="#">
-                    <img
-                      src="assets/images/blog/sidebar/banner.jpg"
-                      alt="banner"
-                    />
-                  </a>
-                </div>
-                {/* End .banner-ad */}
-              </div>
-              {/* End .widget */}
-              <div className="widget">
-                <h3 className="widget-title">Browse Tags</h3>
-                {/* End .widget-title */}
-                <div className="tagcloud">
-                  <a href="#">fashion</a>
-                  <a href="#">style</a>
-                  <a href="#">women</a>
-                  <a href="#">photography</a>
-                  <a href="#">travel</a>
-                  <a href="#">shopping</a>
-                  <a href="#">hobbies</a>
-                </div>
-                {/* End .tagcloud */}
-              </div>
-              {/* End .widget */}
-              <div className="widget widget-text">
-                <h3 className="widget-title">About Blog</h3>
-                {/* End .widget-title */}
-                <div className="widget-text-content">
-                  <p>
-                    Vestibulum volutpat, lacus a ultrices sagittis, mi neque
-                    euismod dui, pulvinar nunc sapien ornare nisl.
-                  </p>
-                </div>
-                {/* End .widget-text-content */}
-              </div>
               {/* End .widget */}
             </div>
             {/* End .sidebar */}
