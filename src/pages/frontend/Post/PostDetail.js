@@ -34,14 +34,14 @@ function PostDetail() {
           <div className="container">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="index.html">Home</a>
+                <a href="index.html">Trang chủ</a>
               </li>
               <li className="breadcrumb-item">
-                <a href="#">Blog</a>
+                <a href="#">Chi tiết bài viết</a>
               </li>
-              <li className="breadcrumb-item active" aria-current="page">
+              {/* <li className="breadcrumb-item active" aria-current="page">
                 Fullwidth
-              </li>
+              </li> */}
             </ol>
           </div>
           {/* End .container */}
@@ -59,20 +59,23 @@ function PostDetail() {
                   <div className="entry-body">
                     <div className="entry-meta">
                       <span className="entry-author">
-                        by <a href="#">{post.created_by}</a>
+                        {/* by <a href="#">{post.created_by}</a> */}
                       </span>
-                      <span className="meta-separator">|</span>
+                      {/* <span className="meta-separator">|</span> */}
                       <a href="#">{formattedDate}</a>
-                      <span className="meta-separator">|</span>
-                      <a href="#">2 Comments</a>
+                      {/* <span className="meta-separator">|</span> */}
+                      {/* <a href="#">2 Comments</a> */}
                     </div>
                     {/* End .entry-meta */}
                     <h2 className="entry-title entry-title-big">
                       {post.title}
                     </h2>
+                    <figure className="entry-media">
+                      <img src={urlImage + "post/" + post.image} alt="image desc" />
+                    </figure>
                     {/* End .entry-title */}
                     <div className="entry-cats">
-                      in <a href="#">Travel</a>
+                      {/* in <a href="#">Travel</a> */}
                     </div>
                     {/* End .entry-cats */}
                     <div className="entry-content editor-content">
@@ -83,16 +86,14 @@ function PostDetail() {
                       {/* End .pb-1 */}
                       <div className="pb-1" />
                     </div>
-                    <figure className="entry-media">
-                      <img src={urlImage + "post/" + post.image} alt="image desc" />
-                    </figure>
+                    
 
                     {/* End .entry-content */}
                     <div className="entry-footer row no-gutters">
                       <div className="col">
                         <div className="entry-tags">
-                          <span>Tags:</span> <a href="#">photography</a>{" "}
-                          <a href="#">style</a>
+                          {/* <span>Tags:</span> <a href="#">photography</a>{" "}
+                          <a href="#">style</a> */}
                         </div>
                         {/* End .entry-tags */}
                       </div>
@@ -106,7 +107,7 @@ function PostDetail() {
                 <div className="col-lg-1 order-lg-first mb-2 mb-lg-0">
                   <div className="sticky-content">
                     <div className="social-icons social-icons-colored social-icons-vertical">
-                      <span className="social-label">SHARE:</span>
+                      <span className="social-label">Chia sẽ :</span>
                       <a
                         href="#"
                         className="social-icon social-facebook"

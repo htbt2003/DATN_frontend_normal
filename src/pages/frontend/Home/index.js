@@ -232,13 +232,13 @@ function HomeData() {
                             <article key={index} className="entry entry-display p-3">
                               <div className="address">
                               <figure className="entry-media">
-                              <a href="single.html">
+                              <Link to={"/chi-tiet-bai-viet/" + post.slug}>
                                 <img
                                    src={urlImage + "post/" + post.image}
                                   alt="image desc"
-                                 style={{height:"300px", width:"260px"}}
+                                 style={{height:"180px", width:"260px"}}
                                 />
-                              </a>
+                              </Link>
                             </figure>
                             <div className="entry-body text-center">
                               <div className="entry-meta">

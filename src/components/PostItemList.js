@@ -37,12 +37,12 @@ function PostItemList(props) {
             <div className="entry-body">
               <div className="entry-meta">
                 <span className="entry-author">
-                  by <a href="#">John Doe</a>
+                  {/* by <a href="#">John Doe</a> */}
                 </span>
-                <span className="meta-separator">|</span>
+                {/* <span className="meta-separator">|</span> */}
                 <a href="#">{formattedDate}</a>
-                <span className="meta-separator">|</span>
-                <a href="#">2 Comments</a>
+                {/* <span className="meta-separator">|</span> */}
+                {/* <a href="#">2 Comments</a> */}
               </div>
               {/* End .entry-meta */}
               <h2 className="entry-title">

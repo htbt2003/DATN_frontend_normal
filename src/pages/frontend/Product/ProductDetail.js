@@ -47,6 +47,7 @@ function ProductDetail() {
       setAttributes(response.product.productattributes)
       setVariants(response.product.variants)
       setProductOther(response.product_other)
+
       const result = await ReviewServies.getReviewProduct(response.product.id);
       setReviews(result.reviews);
     }
@@ -151,7 +152,7 @@ function ProductDetail() {
       }
     }
   };
-  console.log(addcart)
+  console.log(product_other)
   ///------------------------------------------------------------------------------------
   return (
     <>
@@ -554,7 +555,9 @@ function ProductDetail() {
                 {
                   (product_other && product_other.length > 0 && product_other.map(function (product, index) {
                     return (
-                      <ProductItem03 product={product} key={index} />
+                      <div className="col-3 col-md-3 col-lg-3">
+                            <ProductItem03 key={index} product={product}/>
+                          </div>
                     );
                   }))
                 }

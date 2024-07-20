@@ -76,13 +76,13 @@ const PageDetail = () => {
                 <i className="icon-puzzle-piece" />
               </span>
               <div className="icon-box-content">
-                <h3 className="icon-box-title">Design Quality</h3>
+                {/* <h3 className="icon-box-title">Design Quality</h3> */}
                 {/* End .icon-box-title */}
-                <p>
+                {/* <p>
                   Sed egestas, ante et vulputate volutpat, eros pede semper est,
                   vitae luctus metus libero <br />
                   eu augue.
-                </p>
+                </p> */}
               </div>
               {/* End .icon-box-content */}
             </div>
@@ -95,13 +95,13 @@ const PageDetail = () => {
                 <i className="icon-life-ring" />
               </span>
               <div className="icon-box-content">
-                <h3 className="icon-box-title">Professional Support</h3>
+                {/* <h3 className="icon-box-title">Professional Support</h3> */}
                 {/* End .icon-box-title */}
-                <p>
+                {/* <p>
                   Praesent dapibus, neque id cursus faucibus, <br />
                   tortor neque egestas augue, eu vulputate <br />
                   magna eros eu erat.{" "}
-                </p>
+                </p> */}
               </div>
               {/* End .icon-box-content */}
             </div>
@@ -114,13 +114,13 @@ const PageDetail = () => {
                 <i className="icon-heart-o" />
               </span>
               <div className="icon-box-content">
-                <h3 className="icon-box-title">Made With Love</h3>
+                {/* <h3 className="icon-box-title">Made With Love</h3> */}
                 {/* End .icon-box-title */}
-                <p>
+                {/* <p>
                   Pellentesque a diam sit amet mi ullamcorper <br />
                   vehicula. Nullam quis massa sit amet <br />
                   nibh viverra malesuada.
-                </p>
+                </p> */}
               </div>
               {/* End .icon-box-content */}
             </div>
