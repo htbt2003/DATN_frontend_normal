@@ -13,28 +13,38 @@ const App = () => {
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
 
-  useEffect(() => {
-    const checkTokenExpiration = async () => {
-      if (token) {
-        try {
-          const decodedToken = jwtDecode(token);
-          const timeToken = decodedToken.exp * 1000;
-          const currentTime = Date.now();
-
-          if (timeToken && currentTime > timeToken - 60000) {
-            await UserServices.logout();
-            dispatch(clearAuth());
-            swal("Cảnh báo", "Phiên của bạn đã hết hạn. Xin vui lòng đăng nhập lại.", "warning");
-            navigate("/", { replace: true });
-          }
-        } catch (error) {
-          console.error("Token decoding failed or other error occurred:", error);
-        }
+  const checkTokenExpiration = async () => {
+    const decodedToken = jwtDecode(token);
+    const timeToken = decodedToken.exp * 1000;
+    const currentTime = Date.now();
+  
+    if (timeToken && currentTime > timeToken - 30000) {
+      try {
+        await UserServices.logout();
+        dispatch(clearAuth());
+        swal("Cảnh báo", "Phiên của bạn đã hết hạn. Xin vui lòng đăng nhập lại.", "warning");
+        navigate("/", { replace: true });
+      } catch (error) {
+        console.log(error);
       }
-    };
+  }
+};
 
-    const interval = setInterval(checkTokenExpiration, 1000); // Check every second
-    return () => clearInterval(interval); // Cleanup
+  useEffect(() => {
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const timeToken = decodedToken.exp * 1000;
+      const currentTime = Date.now();
+    
+      if (timeToken && currentTime > timeToken) {
+        dispatch(clearAuth());
+        swal("Cảnh báo", "Phiên của bạn đã hết hạn. Xin vui lòng đăng nhập lại.", "warning");
+        navigate("/", { replace: true });
+      } else {
+        const interval = setInterval(checkTokenExpiration, 1000);
+        return () => clearInterval(interval); 
+      }
+    }
   }, [token, dispatch, navigate]);
 
   return (

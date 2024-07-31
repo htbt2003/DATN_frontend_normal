@@ -12,6 +12,7 @@ function Cart() {
   const [reload, setReload] = useState();
   const [ListCart, setListCart] = useState([]);
   const [selectedproducts, setSelectedproducts] = useState([]);
+  const [qtyOld, setQtyOld] = useState();
 
   useEffect(function () {
     const deviceId = localStorage.getItem('device_id');
@@ -26,7 +27,7 @@ function Cart() {
     }
     fetchAPI()
   }, [reload])
-  console.log(ListCart)
+  // console.log(ListCart)
   //Tính tổng giỏ hàng
   let TotalCart = 0;
   ListCart && ListCart.forEach(function (item) {
@@ -101,19 +102,18 @@ function Cart() {
   };
   //----cập hật sản phẩm ----------------------------------------
   const handleUpdateQty = async (item, e) => {
-    const newQty = e.target.value
-
+    const newQty = e.target.value;
+    // console.log(qtyOld)
     const result = await CartServices.update_qty(item.id, newQty);
 
     if (!result.status) {
       swal("Cảnh báo", "Rất tiếc, bạn chỉ có thể mua " + result.inventory + " sản phẩm", "warning");
       e.target.value = result.inventory
       await CartServices.update_qty(item.id, e.target.value);
-      // dispatch(UpdateCart({ qtyOld: item.quantity, qtyNew: result.inventory}));
+      dispatch(UpdateCart({ qtyOld: qtyOld, qtyNew: result.inventory}));
     } else {
-      dispatch(UpdateCart({ qtyOld: item.quantity, qtyNew: newQty }));
+      dispatch(UpdateCart({ qtyOld: qtyOld, qtyNew: newQty }));
     }
-
     setReload(Date.now())
   };
   //-------chọn sản phẩm--------------------
@@ -137,7 +137,7 @@ function Cart() {
       navigator("/thanh-toan");
     }
   };
-  console.log(ListCart)
+  // console.log(qtyOld)
   if (ListCart.length > 0) {
     return (
       <>
@@ -280,7 +280,9 @@ function Cart() {
                                         // required=""
                                         // placeholder=""
                                         value={item.quantity}
+                                        onClick={()=>setQtyOld(item.quantity)}
                                         onChange={(e) => {
+                                          // dispatch(UpdateCart({ qtyOld: item.quantity, qtyNew: e.target.value }));
                                           const updatedListCart = [...ListCart];
                                           updatedListCart[key].quantity = e.target.value;
                                           setListCart(updatedListCart);

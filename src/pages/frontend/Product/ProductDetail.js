@@ -131,7 +131,7 @@ function ProductDetail() {
   };
 
   const handleAddCart = async () => {
-    dispatch(ClearCart());
+    // dispatch(ClearCart());
     if (variants.length > 0 && !addcart) {
       swal("Cảnh báo", "Vui lòng đưa ra lựa chọn", "warning");
     } else {

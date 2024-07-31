@@ -22,6 +22,7 @@ function HomeData() {
   };
     return (
 <>
+
   <main className="main" style={{ backgroundColor: "#f9f9f9" }}>
     <Slider data={sliders}/>
     <div className="mb-3 mb-lg-5" />

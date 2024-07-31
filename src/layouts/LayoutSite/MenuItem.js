@@ -6,7 +6,7 @@ function MenuItem(props) {
     const rowmenu = props.menu
     const [menuchilds] = useState(props.menu.children);
     // menuchilds.lenght
-  if(menuchilds.lenght>0){
+  if(!props.menu.children){
     return(
         <li>
             <Link to={rowmenu.link}>{rowmenu.name}</Link>
@@ -20,7 +20,7 @@ function MenuItem(props) {
         {rowmenu.name}
       </Link>
       <ul>
-        {menuchilds.map(function(menu, index){
+        {props.menu.children && props.menu.children.map(function(menu, index){
             return (
                 <li>
                     <Link to={menu.link} key={index}>{menu.name}</Link>

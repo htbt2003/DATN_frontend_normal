@@ -1,2 +1,2 @@
-export const urlAPI= "http://localhost/HuynhThiBaoTran_backend_cdtt/public/api/"
-export const urlImage= "http://localhost/HuynhThiBaoTran_backend_cdtt/public/images/"
+export const urlAPI= "http://htbt.free.nf/api/"
+export const urlImage= "http://htbt.free.nf/api/images/"

@@ -47,7 +47,11 @@ const cartSlice = createSlice({
     
     UpdateCart: (state, action) => {
       const { qtyOld, qtyNew } = action.payload;
-      state.numberCart += (qtyNew - qtyOld);
+      console.log(state.numberCart);
+
+      state.numberCart = state.numberCart + Number(qtyNew) - Number(qtyOld);
+      
+      console.log(state.numberCart);
     },
 
     IncreaseQuantity(state, action) {
